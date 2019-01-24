@@ -1,0 +1,10 @@
+version: '3'
+services:
+        
+    vue:
+        build: ./frontend
+        volumes:
+            - ./frontend/vue:/vue
+        ports:
+            - '8081:8080'
+        command: 'yarn run serve'
