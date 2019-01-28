@@ -1,0 +1,40 @@
+version: '3'
+services:
+    db_article:
+        image: mysql:8.0.13
+        ports:
+        - "3306:3306"
+        volumes:
+            - data:/var/lib/docker-mysql
+            - data:/var/log/docker-mysql
+            - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+        environment:
+            MYSQL_USER: teixy
+            MYSQL_PASSWORD: teixy
+            MYSQL_DATABASE: teixy_article
+            MYSQL_ROOT_PASSWORD: password
+            TZ: 'Asia/Tokyo'
+        command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+    go:
+        build: ./go
+        depends_on:
+            - db_article
+        volumes:
+            - ./go:/go/src/github.com/teixy
+        ports:
+            - '8080:8080'
+        tty: true
+        
+    vue:
+        build: ./frontend
+        depends_on:
+            - go
+        volumes:
+            - ./frontend/vue:/vue
+        ports:
+            - '8081:8080'
+        command: 'yarn run serve'
+
+volumes:
+    data:
