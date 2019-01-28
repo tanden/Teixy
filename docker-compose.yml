@@ -1,8 +1,18 @@
 version: '3'
 services:
+
+    go:
+        build: ./go
+        volumes:
+            - ./go:/go/src/github.com/teixy
+        ports:
+            - '8080:8080'
+        tty: true
         
     vue:
         build: ./frontend
+        depends_on:
+            - go
         volumes:
             - ./frontend/vue:/vue
         ports:
