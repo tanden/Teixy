@@ -1,4 +1,4 @@
-# vue
+# support
 
 ## Project setup
 ```
