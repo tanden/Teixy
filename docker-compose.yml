@@ -24,14 +24,14 @@ services:
             - ./go:/go/src/github.com/teixy
         ports:
             - '8080:8080'
-        tty: true
+        command: 'gin -t ./ -b main -i -a 8080'
         
-    vue:
+    support:
         build: ./frontend
         depends_on:
             - go
         volumes:
-            - ./frontend/vue:/vue
+            - ./frontend/support:/support
         ports:
             - '8081:8080'
         command: 'yarn run serve'
