@@ -1,6 +1,6 @@
 # Vue.jsのビルド環境
 FROM node:10.15.0-alpine
-WORKDIR /vue
+WORKDIR /support
 RUN apk update && \
     #vue-cli ver3のinstall
     npm install -g @vue/cli && \
