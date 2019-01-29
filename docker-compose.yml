@@ -24,7 +24,7 @@ services:
             - ./go:/go/src/github.com/teixy
         ports:
             - '8080:8080'
-        command: 'gin -t ./ -b main -i -a 8080'
+        tty: true
         
     support:
         build: ./frontend
