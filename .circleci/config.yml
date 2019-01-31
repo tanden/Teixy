@@ -11,7 +11,7 @@ jobs:
 
       - restore_cache:
           keys:
-              - v1-vendor-{{ .Branch }}-{{ checksum "src/Gopkg.lock" }}
+              - v1-vendor-{{ .Branch }}-{{ checksum "go/Gopkg.lock" }}
               - v1-vendor-{{ .Branch }}
               - v1-vendor
               - v1-dep
