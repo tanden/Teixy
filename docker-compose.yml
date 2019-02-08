@@ -3,7 +3,7 @@ services:
     db_article:
         image: mysql:8.0.13
         ports:
-        - "3306:3306"
+            - "3306:3306"
         volumes:
             - data:/var/lib/docker-mysql
             - data:/var/log/docker-mysql
