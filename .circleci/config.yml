@@ -4,44 +4,30 @@ jobs:
     working_directory: /go/src/github.com/teixy/
 
     docker:
-      - image: circleci/golang:1.10
+      - image: circleci/golang:1.11.5
+        environment:
+          GO111MODULE: "on"
     
     steps:
       - checkout
 
       - restore_cache:
+          name: Restore go modules cache
           keys:
-              - v1-vendor-{{ .Branch }}-{{ checksum "go/Gopkg.lock" }}
-              - v1-vendor-{{ .Branch }}
-              - v1-vendor
-              - v1-dep
+              - v1-mod-{{ .Branch }}-{{ checksum "go/go.mod" }}
 
       - run:
-          name: dep ensure
-          command: |
-              cd go/
-              if [ ! -d vendor ]; then
-                if ! type dep >/dev/null 2>&1; then
-                  go get -u github.com/golang/dep/cmd/dep
-                fi
-                dep ensure
-              fi
-      # ローカルとcircleci上でgo getしたdepのversionが異なると
-      # dep ensureしたときにGopkg.lockのchecksumが変わってしまい
-      # 別のcacheとして保存されてしまいrestore_cacheで取り出せない
-      # cacheしてるdepのversionはv0.5.0
+          name: Vendoring
+          command: go mod download
+          
       - save_cache:
-          key: v1-vendor-{{ .Branch }}-{{ checksum "go/Gopkg.lock" }}
+          name: Save go modules cache
+          key: v1-mod-{{ .Branch }}-{{ checksum "go/go.mod" }}
           paths:
-              - go/vendor
-
-      - save_cache:
-          key: v1-dep
-          paths:
-              - /go/bin/dep
+              - ~/go/pkg/mod/cache
 
       - run:
-          name: go build
+          name: Build go binary
           command: |
               go build -v -o go/main go/main.go
 
