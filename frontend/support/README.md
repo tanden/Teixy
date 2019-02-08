@@ -19,6 +19,10 @@ yarn run build
 ```
 yarn run test
 ```
+testURLはCloud9だとIPが常に変わるので  
+テストの都度変更する必要がある  
+本当はElastic IPを取得したいがまだ節約  
+
 
 ### Lints and fixes files
 ```
