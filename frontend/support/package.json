@@ -76,9 +76,6 @@
     "testMatch": [
       "**/tests/unit/**/*.spec.(js|jsx|ts|tsx)|**/__tests__/*.(js|jsx|ts|tsx)"
     ],
-    //testURLはCloud9だとIPが常に変わるので
-    //テストの都度変更する必要がある
-    //本当はElastic IPを取得したいがまだ節約
     "testURL": "http://localhost/"
   }
 }
