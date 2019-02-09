@@ -8,6 +8,13 @@ timestamp=`date +%Y%m%d%H%M`
 up=./sql/${timestamp}_${1}.up.sql
 down=./sql/${timestamp}_${1}.down.sql
 
+if [ -f ${up} ] && [ -f ${down} ] ; then
+    echo 'sql files have been already created'
+    echo ${up}
+    echo ${down}
+    exit 1
+fi
+
 touch ${up}
 touch ${down}
 
