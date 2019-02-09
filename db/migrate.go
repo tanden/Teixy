@@ -14,9 +14,9 @@ var (
 )
 
 //available command list
-var available_commands = []string{
-	"up",
-	"down",
+var available_commands = map[string]string{
+	"up":   "execute up sqls",
+	"down": "execute down sqls",
 }
 
 func main() {
@@ -27,7 +27,7 @@ func main() {
 		showUsageMessge()
 		return
 	}
-	if !isValidCommand(available_commands, *command) {
+	if len(available_commands[*command]) < 1 {
 		fmt.Println("\nerror: invalid command '" + *command + "'\n")
 		showUsageMessge()
 		return
@@ -65,20 +65,10 @@ func main() {
 func showUsageMessge() {
 	fmt.Println("-------------------------------------")
 	fmt.Println("Usage")
-	fmt.Println(" go run migrate.go -exec <command>\n")
+	fmt.Println("  go run migrate.go -exec <command>\n")
 	fmt.Println("Available Commands: ")
-	fmt.Println("  up    execute up sqls")
-	fmt.Println("  down  execute down sqls")
-	fmt.Println("-------------------------------------")
-}
-
-// check is valid command that is given by command line
-func isValidCommand(slice []string, item string) bool {
-	set := make(map[string]struct{}, len(slice))
-	for _, s := range slice {
-		set[s] = struct{}{}
+	for command, detail := range available_commands {
+		fmt.Println("  " + command + " : " + detail)
 	}
-
-	_, ok := set[item]
-	return ok
+	fmt.Println("-------------------------------------")
 }
