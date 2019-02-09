@@ -11,12 +11,13 @@ import (
 //declare command line argumet
 var (
 	command = flag.String("exec", "", "set up or down as a argument")
+	fix     = flag.Bool("fix", false, "force exec fixed sql")
 )
 
 //available command list
-var available_commands = map[string]string{
-	"up":   "execute up sqls",
-	"down": "execute down sqls",
+var available_exec_commands = map[string]string{
+	"up":   "Execute up sqls",
+	"down": "Execute down sqls",
 }
 
 func main() {
@@ -27,7 +28,7 @@ func main() {
 		showUsageMessge()
 		return
 	}
-	if len(available_commands[*command]) < 1 {
+	if len(available_exex_commands[*command]) < 1 {
 		fmt.Println("\nerror: invalid command '" + *command + "'\n")
 		showUsageMessge()
 		return
@@ -41,12 +42,22 @@ func main() {
 	}
 
 	version, dirty, err := m.Version()
-	fmt.Println(version)
-	fmt.Println(dirty)
+	fmt.Println("version: " + string(version))
+	if dirty {
+		fmt.Println("dirty: true")
+	} else {
+		fmt.Println("dirty: false")
+	}
+	fmt.Println("err")
 	fmt.Println(err)
+	fmt.Println("\n")
 
 	if *command == "up" {
 		fmt.Println("command: exec up")
+		if dirty && *fix {
+			fmt.Println("fix=true: force execute current version sql")
+			m.Force(int(version))
+		}
 		err := m.Up()
 		if err != nil {
 			fmt.Println("err", err)
@@ -55,6 +66,10 @@ func main() {
 
 	if *command == "down" {
 		fmt.Println("command: exec down")
+		if dirty && *fix {
+			fmt.Println("fix=true: force execute current version sql")
+			m.Force(int(version))
+		}
 		err := m.Down()
 		if err != nil {
 			fmt.Println("err", err)
@@ -66,8 +81,8 @@ func showUsageMessge() {
 	fmt.Println("-------------------------------------")
 	fmt.Println("Usage")
 	fmt.Println("  go run migrate.go -exec <command>\n")
-	fmt.Println("Available Commands: ")
-	for command, detail := range available_commands {
+	fmt.Println("Available Exec Commands: ")
+	for command, detail := range available_exex_commands {
 		fmt.Println("  " + command + " : " + detail)
 	}
 	fmt.Println("-------------------------------------")
