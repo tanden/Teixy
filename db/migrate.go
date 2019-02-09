@@ -11,7 +11,7 @@ import (
 //declare command line argumet
 var (
 	command = flag.String("exec", "", "set up or down as a argument")
-	fix     = flag.Bool("fix", false, "force exec fixed sql")
+	fix     = flag.Bool("f", false, "force exec fixed sql")
 )
 
 //available command list
