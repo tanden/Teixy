@@ -11,6 +11,10 @@ down=./sql/${timestamp}_${1}.down.sql
 touch ${up}
 touch ${down}
 
+# 実行権限を付与
+chmod 755 ${up}
+chmod 755 ${down}
+
 # 念の為ファイルがあるかどうかチェック
 if [ -f ${up} ] && [ -f ${down} ] ; then
     echo 'create sql file: success!'
