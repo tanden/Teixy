@@ -8,9 +8,16 @@ import (
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 )
 
+//declare command line argumet
 var (
 	command = flag.String("exec", "", "set up or down as a argument")
 )
+
+//available command list
+var available_commands = []string{
+	"up",
+	"down",
+}
 
 func main() {
 
@@ -20,8 +27,8 @@ func main() {
 		showUsageMessge()
 		return
 	}
-	if *command != "up" || *command != "down" {
-		fmt.Println("\nerror: invalid command\n")
+	if !isValidCommand(available_commands, *command) {
+		fmt.Println("\nerror: invalid command '" + *command + "'\n")
 		showUsageMessge()
 		return
 	}
@@ -29,7 +36,6 @@ func main() {
 	m, err := migrate.New(
 		"file://sql/",
 		"mysql://teixy:teixy@tcp(0.0.0.0:3306)/teixy_article")
-
 	if err != nil {
 		fmt.Println("err", err)
 	}
@@ -64,4 +70,15 @@ func showUsageMessge() {
 	fmt.Println("  up    execute up sqls")
 	fmt.Println("  down  execute down sqls")
 	fmt.Println("-------------------------------------")
+}
+
+// check is valid command that is given by command line
+func isValidCommand(slice []string, item string) bool {
+	set := make(map[string]struct{}, len(slice))
+	for _, s := range slice {
+		set[s] = struct{}{}
+	}
+
+	_, ok := set[item]
+	return ok
 }
