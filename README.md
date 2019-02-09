@@ -43,5 +43,8 @@ gitのコミット履歴を見やすくしてくれる
 デフォルトではUTCなので変更する　　
 ```
 % cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
+# dateコマンドでJSTになっていればok
+% date
+Sat Feb  9 21:27:53 JST 2019
 ```
 
