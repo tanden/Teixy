@@ -43,12 +43,14 @@ func main() {
 	}
 
 	version, dirty, err := m.Version()
-	fmt.Println("version: ", version)
-	fmt.Println("dirty: ", dirty)
-	fmt.Println("err: ", err)
+	fmt.Println("-------------------")
+	fmt.Println("version  : ", version)
+	fmt.Println("dirty    : ", dirty)
+	fmt.Println("error    : ", err)
+	fmt.Println("-------------------")
 
+	fmt.Println("command: exec", *command)
 	if *command == "up" {
-		fmt.Println("command: exec up")
 		if dirty && *fix {
 			fmt.Println("fix=true: force execute current version sql")
 			m.Force(int(version))
@@ -56,11 +58,12 @@ func main() {
 		err := m.Up()
 		if err != nil {
 			fmt.Println("err", err)
+		} else {
+			fmt.Println("command success:", *command)
 		}
 	}
 
 	if *command == "down" {
-		fmt.Println("command: exec down")
 		if dirty && *fix {
 			fmt.Println("fix=true: force execute current version sql")
 			m.Force(int(version))
@@ -68,6 +71,8 @@ func main() {
 		err := m.Down()
 		if err != nil {
 			fmt.Println("err", err)
+		} else {
+			fmt.Println("command success:", *command)
 		}
 	}
 }
