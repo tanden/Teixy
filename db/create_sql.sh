@@ -27,6 +27,6 @@ fi
 # 空の.sqlのファイルを作成する
 # example 
 # $ ./create_sql.sh create_table
-# $ ls 
+# $ ls ./sql
 # 201902091202_create_table.up.sql
 # 201902091202_create_table.down.sql
