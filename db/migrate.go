@@ -16,8 +16,9 @@ var (
 
 //available command list
 var available_exec_commands = map[string]string{
-	"up":   "Execute up sqls",
-	"down": "Execute down sqls",
+	"up":      "Execute up sqls",
+	"down":    "Execute down sqls",
+	"version": "Just check current migrate version",
 }
 
 func main() {
