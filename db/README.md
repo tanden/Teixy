@@ -3,14 +3,14 @@
 ## migrateを使ってmigrationを管理する
 [golang-migrate/migrate](https://github.com/golang-migrate/migrate)
 
-## migrate.goの中で使っているドライバー
+### migrate.goの中で使っているドライバー
 ローカルのsqlファイルの読み込み用のドライバー  
 [migrate/source/file/](https://github.com/golang-migrate/migrate/tree/master/source/file)
 
 mysql用のドライバー  
 [migrate/database/mysql/](https://github.com/golang-migrate/migrate/tree/master/database/mysql)
 
-## Goからpackageとしてimportして使う場合のDocument
+### Goからpackageとしてimportして使う場合のDocument
 [package migrate](https://godoc.org/github.com/golang-migrate/migrate)
 
 ## 主な開発の流れ
