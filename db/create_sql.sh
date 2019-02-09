@@ -22,7 +22,7 @@ touch ${down}
 chmod 755 ${up}
 chmod 755 ${down}
 
-# 念の為ファイルがあるかどうかチェック
+# 念の為ファイルが作成されたかどうかチェック
 if [ -f ${up} ] && [ -f ${down} ] ; then
     echo 'create sql file: success!'
     exit 0
