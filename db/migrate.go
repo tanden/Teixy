@@ -9,10 +9,22 @@ import (
 )
 
 var (
-	command = flag.String("exec", "no command", "set up or down as a command to exec sql")
+	command = flag.String("exec", "", "set up or down as a argument")
 )
 
 func main() {
+
+	flag.Parse()
+	if len(*command) < 1 {
+		fmt.Println("\nerror: no argument\n")
+		showUsageMessge()
+		return
+	}
+	if *command != "up" || *command != "down" {
+		fmt.Println("\nerror: invalid command\n")
+		showUsageMessge()
+		return
+	}
 
 	m, err := migrate.New(
 		"file://sql/",
@@ -27,7 +39,6 @@ func main() {
 	fmt.Println(dirty)
 	fmt.Println(err)
 
-	flag.Parse()
 	if *command == "up" {
 		fmt.Println("command: exec up")
 		err := m.Up()
@@ -43,4 +54,14 @@ func main() {
 			fmt.Println("err", err)
 		}
 	}
+}
+
+func showUsageMessge() {
+	fmt.Println("-------------------------------------")
+	fmt.Println("Usage")
+	fmt.Println(" go run migrate.go -exec <command>\n")
+	fmt.Println("Available Commands: ")
+	fmt.Println("  up    execute up sqls")
+	fmt.Println("  down  execute down sqls")
+	fmt.Println("-------------------------------------")
 }
