@@ -34,7 +34,7 @@ mysql用のドライバー
 % go run migrate.go -exec down
 ```
 
-### -f force option
+### -f (force option)
 ```
 % go run migrate.go -exec up -f
 ```
