@@ -8,7 +8,7 @@ import (
 	_ "github.com/golang-migrate/migrate/v4/source/file"
 )
 
-//declare command line argumet
+//declare command line options
 var (
 	command = flag.String("exec", "", "set up or down as a argument")
 	fix     = flag.Bool("f", false, "force exec fixed sql")
