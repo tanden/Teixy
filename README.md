@@ -36,3 +36,12 @@ $ yum install tig
 ```
 で入るはず  
 gitのコミット履歴を見やすくしてくれる
+
+## AWS Cloud9の環境設定
+
+### timezone
+デフォルトではUTCなので変更する　　
+```
+% cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
+```
+
