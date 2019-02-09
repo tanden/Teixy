@@ -1,0 +1,10 @@
+CREATE TABLE IF NOT EXISTS `author_map` (
+  `id`         INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `article_id` INT UNSIGNED NOT NULL,
+  `author_id`  INT UNSIGNED NOT NULL,
+  `mtime`      DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `ctime`      DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `article_id` (`article_id`),
+  KEY `author_id` (`author_id`)
+) ENGINE=INNODB;
