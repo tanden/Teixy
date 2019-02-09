@@ -28,29 +28,23 @@ func main() {
 		showUsageMessge()
 		return
 	}
-	if len(available_exex_commands[*command]) < 1 {
+	if len(available_exec_commands[*command]) < 1 {
 		fmt.Println("\nerror: invalid command '" + *command + "'\n")
 		showUsageMessge()
 		return
 	}
 
 	m, err := migrate.New(
-		"file://sql/",
+		"file://./sql/",
 		"mysql://teixy:teixy@tcp(0.0.0.0:3306)/teixy_article")
 	if err != nil {
 		fmt.Println("err", err)
 	}
 
 	version, dirty, err := m.Version()
-	fmt.Println("version: " + string(version))
-	if dirty {
-		fmt.Println("dirty: true")
-	} else {
-		fmt.Println("dirty: false")
-	}
-	fmt.Println("err")
-	fmt.Println(err)
-	fmt.Println("\n")
+	fmt.Println("version: ", version)
+	fmt.Println("dirty: ", dirty)
+	fmt.Println("err: ", err)
 
 	if *command == "up" {
 		fmt.Println("command: exec up")
@@ -82,7 +76,7 @@ func showUsageMessge() {
 	fmt.Println("Usage")
 	fmt.Println("  go run migrate.go -exec <command>\n")
 	fmt.Println("Available Exec Commands: ")
-	for command, detail := range available_exex_commands {
+	for command, detail := range available_exec_commands {
 		fmt.Println("  " + command + " : " + detail)
 	}
 	fmt.Println("-------------------------------------")
