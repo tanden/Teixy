@@ -82,8 +82,8 @@ func showUsageMessge() {
 	fmt.Println("Usage")
 	fmt.Println("  go run migrate.go -exec <command>\n")
 	fmt.Println("Available Exec Commands: ")
-	for command, detail := range available_exec_commands {
-		fmt.Println("  " + command + " : " + detail)
+	for available_command, detail := range available_exec_commands {
+		fmt.Println("  " + available_command + " : " + detail)
 	}
 	fmt.Println("-------------------------------------")
 }
