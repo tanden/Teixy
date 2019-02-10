@@ -11,7 +11,7 @@ import (
 //declare command line options
 var (
 	command = flag.String("exec", "", "set up or down as a argument")
-	fix     = flag.Bool("f", false, "force exec fixed sql")
+	force   = flag.Bool("f", false, "force exec fixed sql")
 )
 
 //available command list
@@ -51,8 +51,8 @@ func main() {
 
 	fmt.Println("command: exec", *command)
 	if *command == "up" {
-		if dirty && *fix {
-			fmt.Println("fix=true: force execute current version sql")
+		if dirty && *force {
+			fmt.Println("force=true: force execute current version sql")
 			m.Force(int(version))
 		}
 		err := m.Up()
@@ -64,8 +64,8 @@ func main() {
 	}
 
 	if *command == "down" {
-		if dirty && *fix {
-			fmt.Println("fix=true: force execute current version sql")
+		if dirty && *force {
+			fmt.Println("force=true: force execute current version sql")
 			m.Force(int(version))
 		}
 		err := m.Down()
