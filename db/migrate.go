@@ -60,6 +60,8 @@ func main() {
 	}
 }
 
+//exec up sqls
+//with force option if needed
 func upSql(m *migrate.Migrate, version uint, dirty bool) {
 	if dirty && *force {
 		fmt.Println("force=true: force execute current version sql")
@@ -70,10 +72,15 @@ func upSql(m *migrate.Migrate, version uint, dirty bool) {
 		fmt.Println("err", err)
 		os.Exit(1)
 	} else {
-		fmt.Println("command success:", *command)
+		fmt.Println("success:", *command+"\n")
+		fmt.Println("updated version info")
+		version, dirty, err := m.Version()
+		showVersionInfo(version, dirty, err)
 	}
 }
 
+//exec up sqls
+//with force option if needed
 func downSql(m *migrate.Migrate, version uint, dirty bool) {
 	if dirty && *force {
 		fmt.Println("force=true: force execute current version sql")
@@ -84,9 +91,11 @@ func downSql(m *migrate.Migrate, version uint, dirty bool) {
 		fmt.Println("err", err)
 		os.Exit(1)
 	} else {
-		fmt.Println("command success:", *command)
+		fmt.Println("success:", *command+"\n")
+		fmt.Println("updated version info")
+		version, dirty, err := m.Version()
+		showVersionInfo(version, dirty, err)
 	}
-
 }
 
 func showUsageMessge() {
