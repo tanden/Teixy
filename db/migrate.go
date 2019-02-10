@@ -9,6 +9,12 @@ import (
 	"os"
 )
 
+//sql and database info
+const (
+	source   = "file://./sql/"
+	database = "mysql://teixy:teixy@tcp(0.0.0.0:3306)/teixy_article"
+)
+
 //declare command line options
 var (
 	command = flag.String("exec", "", "set up or down as a argument")
@@ -38,9 +44,7 @@ func main() {
 		return
 	}
 
-	m, err := migrate.New(
-		"file://./sql/",
-		"mysql://teixy:teixy@tcp(0.0.0.0:3306)/teixy_article")
+	m, err := migrate.New(source, database)
 	if err != nil {
 		fmt.Println("err", err)
 	}
