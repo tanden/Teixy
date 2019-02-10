@@ -6,12 +6,13 @@ import (
 	"github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/database/mysql"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
+	"os"
 )
 
 //declare command line options
 var (
 	command = flag.String("exec", "", "set up or down as a argument")
-	fix     = flag.Bool("f", false, "force exec fixed sql")
+	force   = flag.Bool("f", false, "force exec fixed sql")
 )
 
 //available command list
@@ -27,11 +28,13 @@ func main() {
 	if len(*command) < 1 {
 		fmt.Println("\nerror: no argument\n")
 		showUsageMessge()
+		os.Exit(1)
 		return
 	}
 	if len(available_exec_commands[*command]) < 1 {
 		fmt.Println("\nerror: invalid command '" + *command + "'\n")
 		showUsageMessge()
+		os.Exit(1)
 		return
 	}
 
@@ -51,26 +54,28 @@ func main() {
 
 	fmt.Println("command: exec", *command)
 	if *command == "up" {
-		if dirty && *fix {
-			fmt.Println("fix=true: force execute current version sql")
+		if dirty && *force {
+			fmt.Println("force=true: force execute current version sql")
 			m.Force(int(version))
 		}
 		err := m.Up()
 		if err != nil {
 			fmt.Println("err", err)
+			os.Exit(1)
 		} else {
 			fmt.Println("command success:", *command)
 		}
 	}
 
 	if *command == "down" {
-		if dirty && *fix {
-			fmt.Println("fix=true: force execute current version sql")
+		if dirty && *force {
+			fmt.Println("force=true: force execute current version sql")
 			m.Force(int(version))
 		}
 		err := m.Down()
 		if err != nil {
 			fmt.Println("err", err)
+			os.Exit(1)
 		} else {
 			fmt.Println("command success:", *command)
 		}
@@ -82,8 +87,8 @@ func showUsageMessge() {
 	fmt.Println("Usage")
 	fmt.Println("  go run migrate.go -exec <command>\n")
 	fmt.Println("Available Exec Commands: ")
-	for command, detail := range available_exec_commands {
-		fmt.Println("  " + command + " : " + detail)
+	for available_command, detail := range available_exec_commands {
+		fmt.Println("  " + available_command + " : " + detail)
 	}
 	fmt.Println("-------------------------------------")
 }
