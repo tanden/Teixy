@@ -11,18 +11,18 @@ import (
 
 //sql and database info
 const (
-	source   = "file://./sql/"
-	database = "mysql://teixy:teixy@tcp(0.0.0.0:3306)/teixy_article"
+	Source   = "file://./sql/"
+	Database = "mysql://teixy:teixy@tcp(0.0.0.0:3306)/teixy_article"
 )
 
 //declare command line options
 var (
-	command = flag.String("exec", "", "set up or down as a argument")
-	force   = flag.Bool("f", false, "force exec fixed sql")
+	Command = flag.String("exec", "", "set up or down as a argument")
+	Force   = flag.Bool("f", false, "force exec fixed sql")
 )
 
 //available command list
-var available_exec_commands = map[string]string{
+var AvailableExecCommands = map[string]string{
 	"up":      "Execute up sqls",
 	"down":    "Execute down sqls",
 	"version": "Just check current migrate version",
@@ -31,22 +31,22 @@ var available_exec_commands = map[string]string{
 func main() {
 
 	flag.Parse()
-	if len(*command) < 1 {
+	if len(*Command) < 1 {
 		fmt.Println("\nerror: no argument\n")
 		showUsageMessge()
 		os.Exit(1)
 		return
 	}
 
-	m, err := migrate.New(source, database)
+	m, err := migrate.New(Source, Database)
 	if err != nil {
 		fmt.Println("err", err)
 	}
 	version, dirty, err := m.Version()
 	showVersionInfo(version, dirty, err)
 
-	fmt.Println("command: exec", *command)
-	switch *command {
+	fmt.Println("command: exec", *Command)
+	switch *Command {
 	case "up":
 		upSql(m, version, dirty)
 	case "down":
@@ -54,7 +54,7 @@ func main() {
 	case "version":
 		//do nothing
 	default:
-		fmt.Println("\nerror: invalid command '" + *command + "'\n")
+		fmt.Println("\nerror: invalid command '" + *Command + "'\n")
 		showUsageMessge()
 		os.Exit(1)
 	}
@@ -63,7 +63,7 @@ func main() {
 //exec up sqls
 //with force option if needed
 func upSql(m *migrate.Migrate, version uint, dirty bool) {
-	if dirty && *force {
+	if dirty && *Force {
 		fmt.Println("force=true: force execute current version sql")
 		m.Force(int(version))
 	}
@@ -72,7 +72,7 @@ func upSql(m *migrate.Migrate, version uint, dirty bool) {
 		fmt.Println("err", err)
 		os.Exit(1)
 	} else {
-		fmt.Println("success:", *command+"\n")
+		fmt.Println("success:", *Command+"\n")
 		fmt.Println("updated version info")
 		version, dirty, err := m.Version()
 		showVersionInfo(version, dirty, err)
@@ -82,7 +82,7 @@ func upSql(m *migrate.Migrate, version uint, dirty bool) {
 //exec up sqls
 //with force option if needed
 func downSql(m *migrate.Migrate, version uint, dirty bool) {
-	if dirty && *force {
+	if dirty && *Force {
 		fmt.Println("force=true: force execute current version sql")
 		m.Force(int(version))
 	}
@@ -91,7 +91,7 @@ func downSql(m *migrate.Migrate, version uint, dirty bool) {
 		fmt.Println("err", err)
 		os.Exit(1)
 	} else {
-		fmt.Println("success:", *command+"\n")
+		fmt.Println("success:", *Command+"\n")
 		fmt.Println("updated version info")
 		version, dirty, err := m.Version()
 		showVersionInfo(version, dirty, err)
@@ -103,7 +103,7 @@ func showUsageMessge() {
 	fmt.Println("Usage")
 	fmt.Println("  go run migrate.go -exec <command>\n")
 	fmt.Println("Available Exec Commands: ")
-	for available_command, detail := range available_exec_commands {
+	for available_command, detail := range AvailableExecCommands {
 		fmt.Println("  " + available_command + " : " + detail)
 	}
 	fmt.Println("-------------------------------------")
