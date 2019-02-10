@@ -50,11 +50,7 @@ func main() {
 	}
 
 	version, dirty, err := m.Version()
-	fmt.Println("-------------------")
-	fmt.Println("version  : ", version)
-	fmt.Println("dirty    : ", dirty)
-	fmt.Println("error    : ", err)
-	fmt.Println("-------------------")
+	showVersionInfo(version, dirty, err)
 
 	fmt.Println("command: exec", *command)
 	if *command == "up" {
@@ -95,4 +91,12 @@ func showUsageMessge() {
 		fmt.Println("  " + available_command + " : " + detail)
 	}
 	fmt.Println("-------------------------------------")
+}
+
+func showVersionInfo(version uint, dirty bool, err error) {
+	fmt.Println("-------------------")
+	fmt.Println("version  : ", version)
+	fmt.Println("dirty    : ", dirty)
+	fmt.Println("error    : ", err)
+	fmt.Println("-------------------")
 }
