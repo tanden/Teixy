@@ -6,6 +6,7 @@ import (
 	"github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/database/mysql"
 	_ "github.com/golang-migrate/migrate/v4/source/file"
+	"os"
 )
 
 //declare command line options
@@ -27,11 +28,13 @@ func main() {
 	if len(*command) < 1 {
 		fmt.Println("\nerror: no argument\n")
 		showUsageMessge()
+		os.Exit(1)
 		return
 	}
 	if len(available_exec_commands[*command]) < 1 {
 		fmt.Println("\nerror: invalid command '" + *command + "'\n")
 		showUsageMessge()
+		os.Exit(1)
 		return
 	}
 
@@ -58,6 +61,7 @@ func main() {
 		err := m.Up()
 		if err != nil {
 			fmt.Println("err", err)
+			os.Exit(1)
 		} else {
 			fmt.Println("command success:", *command)
 		}
@@ -71,6 +75,7 @@ func main() {
 		err := m.Down()
 		if err != nil {
 			fmt.Println("err", err)
+			os.Exit(1)
 		} else {
 			fmt.Println("command success:", *command)
 		}
