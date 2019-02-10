@@ -37,12 +37,6 @@ func main() {
 		os.Exit(1)
 		return
 	}
-	if len(available_exec_commands[*command]) < 1 {
-		fmt.Println("\nerror: invalid command '" + *command + "'\n")
-		showUsageMessge()
-		os.Exit(1)
-		return
-	}
 
 	m, err := migrate.New(source, database)
 	if err != nil {
