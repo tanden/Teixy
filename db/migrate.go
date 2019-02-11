@@ -46,47 +46,32 @@ func main() {
 	showVersionInfo(version, dirty, err)
 
 	fmt.Println("command: exec", *Command)
+	applyQuery(m, version, dirty)
+}
+
+//exec up or down sqls
+//with force option if needed
+func applyQuery(m *migrate.Migrate, version uint, dirty bool) {
+	if dirty && *Force {
+		fmt.Println("force=true: force execute current version sql")
+		m.Force(int(version))
+	}
+
+	var err error
 	switch *Command {
 	case "up":
-		upSql(m, version, dirty)
+		err = m.Up()
 	case "down":
-		downSql(m, version, dirty)
+		err = m.Down()
 	case "version":
 		//do nothing
+		return
 	default:
 		fmt.Println("\nerror: invalid command '" + *Command + "'\n")
 		showUsageMessge()
 		os.Exit(1)
 	}
-}
 
-//exec up sqls
-//with force option if needed
-func upSql(m *migrate.Migrate, version uint, dirty bool) {
-	if dirty && *Force {
-		fmt.Println("force=true: force execute current version sql")
-		m.Force(int(version))
-	}
-	err := m.Up()
-	if err != nil {
-		fmt.Println("err", err)
-		os.Exit(1)
-	} else {
-		fmt.Println("success:", *Command+"\n")
-		fmt.Println("updated version info")
-		version, dirty, err := m.Version()
-		showVersionInfo(version, dirty, err)
-	}
-}
-
-//exec up sqls
-//with force option if needed
-func downSql(m *migrate.Migrate, version uint, dirty bool) {
-	if dirty && *Force {
-		fmt.Println("force=true: force execute current version sql")
-		m.Force(int(version))
-	}
-	err := m.Down()
 	if err != nil {
 		fmt.Println("err", err)
 		os.Exit(1)
