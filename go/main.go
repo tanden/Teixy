@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"github.com/teixy/go/controllers"
 	"net/http"
 )
 
@@ -20,6 +21,8 @@ func main() {
 	e.GET("/", func(c echo.Context) error {
 		return c.JSON(http.StatusOK, "Hello World!")
 	})
+
+	e.GET("/articles", controllers.GetArticles)
 
 	e.Logger.Fatal(e.Start(":8080"))
 }
