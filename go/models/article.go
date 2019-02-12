@@ -27,7 +27,7 @@ func GetArticles() Articles {
 	data := db.CreateConectionTeixyArticle()
 
 	result := Articles{}
-	query := "SELECT * FROM articles ORDER BY id"
+	query := "SELECT * FROM articles"
 	err := data.Select(&result.Articles, query)
 	if err != nil {
 		log.Fatalln(err)
