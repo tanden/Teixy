@@ -24,7 +24,7 @@ type Articles struct {
 
 func GetArticles() Articles {
 
-	data := db.CreateConectionArticle()
+	data := db.CreateConectionTeixyArticle()
 
 	result := Articles{}
 	query := "SELECT * FROM articles ORDER BY id"
