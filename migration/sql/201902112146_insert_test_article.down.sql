@@ -1,1 +1,2 @@
 DELETE FROM articles WHERE id = 1;
+ALTER TABLE articles AUTO_INCREMENT = 1;
