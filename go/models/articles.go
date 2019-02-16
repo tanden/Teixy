@@ -24,7 +24,7 @@ type Articles struct {
 
 func GetAllArticles(limit int, offset int) Articles {
 
-	data := db.CreateConectionTeixyArticle()
+	data := db.CreateConectionTeixyArticles()
 
 	result := Articles{}
 	query := "SELECT * FROM articles WHERE id BETWEEN ? and ?"
