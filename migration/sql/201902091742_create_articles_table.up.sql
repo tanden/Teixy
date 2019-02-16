@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS `articles` (
   `id`         INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `max_score`  INT UNSIGNED NOT NULL DEFAULT 990,
   `min_score`  INT UNSIGNED NOT NULL DEFAULT 0,
+  `max_score`  INT UNSIGNED NOT NULL DEFAULT 990,
   `title`      TEXT NOT NULL,
   `punch_line` TEXT NOT NULL,
   `content`    TEXT NOT NULL,
