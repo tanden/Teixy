@@ -22,7 +22,7 @@ func main() {
 		return c.JSON(http.StatusOK, "Hello World!")
 	})
 
-	e.GET("/articles", controllers.GetArticles)
+	e.GET("/articles/all/:limit/:offset", controllers.GetAllArticles)
 
 	e.Logger.Fatal(e.Start(":8080"))
 }

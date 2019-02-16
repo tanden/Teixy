@@ -22,13 +22,13 @@ type Articles struct {
 	Articles []Article `json:"article"`
 }
 
-func GetArticles() Articles {
+func GetAllArticles(limit int, offset int) Articles {
 
 	data := db.CreateConectionTeixyArticle()
 
 	result := Articles{}
-	query := "SELECT * FROM articles"
-	err := data.Select(&result.Articles, query)
+	query := "SELECT * FROM articles WHERE id BETWEEN ? and ?"
+	err := data.Select(&result.Articles, query, limit, offset)
 	if err != nil {
 		log.Fatalln(err)
 	}
