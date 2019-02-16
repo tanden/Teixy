@@ -17,8 +17,9 @@ type Params struct {
 var validate *validator.Validate
 
 func paramsValidator(c echo.Context) (error, *Params) {
-	limit, _ := strconv.Atoi(c.Param("limit"))
-	offset, _ := strconv.Atoi(c.Param("offset"))
+
+	limit, _ := strconv.Atoi(c.QueryParam("limit"))
+	offset, _ := strconv.Atoi(c.QueryParam("offset"))
 	validate = validator.New()
 	params := &Params{
 		Limit:  limit,
