@@ -9,28 +9,26 @@ import (
 	"strconv"
 )
 
+var validate *validator.Validate
+
 type MinMaxParams struct {
 	Min_Id int `validate:"required,min=1,numeric"`
 	Max_Id int `validate:"required,min=1,numeric,gtefield=Min_Id"`
 }
 
-var validate *validator.Validate
-
-func minMaxValidator(c echo.Context) (error, *MinMaxParams) {
-	min_id, _ := strconv.Atoi(c.QueryParam("min_id"))
-	max_id, _ := strconv.Atoi(c.QueryParam("max_id"))
+func (params *MinMaxParams) Validate() error {
 	validate = validator.New()
-	params := &MinMaxParams{
-		Min_Id: min_id,
-		Max_Id: max_id,
-	}
 	err := validate.Struct(params)
-	return err, params
+	return err
 }
 
 func GetAllArticles(c echo.Context) error {
 
-	err, params := minMaxValidator(c)
+	min_id, _ := strconv.Atoi(c.QueryParam("min_id"))
+	max_id, _ := strconv.Atoi(c.QueryParam("max_id"))
+
+	params := MinMaxParams{min_id, max_id}
+	err := params.Validate()
 	if err != nil {
 		fmt.Println("err", err)
 		return echo.NewHTTPError(http.StatusBadRequest, "Invalid Parameter")
