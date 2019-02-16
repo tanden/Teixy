@@ -35,3 +35,17 @@ func GetAllArticles(min_id int, max_id int) Articles {
 
 	return result
 }
+
+func GetArticle(id int) []Article {
+
+	data := db.CreateConectionTeixyArticles()
+
+	var result []Article
+	query := "SELECT * FROM articles WHERE id = ?"
+	err := data.Select(&result, query, id)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	return result
+}
