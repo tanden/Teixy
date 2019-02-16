@@ -9,18 +9,18 @@ import (
 	"strconv"
 )
 
-type Params struct {
+type MinMaxParams struct {
 	Min_Id int `validate:"required,min=1,numeric"`
 	Max_Id int `validate:"required,min=1,numeric,gtefield=Min_Id"`
 }
 
 var validate *validator.Validate
 
-func paramsValidator(c echo.Context) (error, *Params) {
+func minMaxValidator(c echo.Context) (error, *MinMaxParams) {
 	min_id, _ := strconv.Atoi(c.QueryParam("min_id"))
 	max_id, _ := strconv.Atoi(c.QueryParam("max_id"))
 	validate = validator.New()
-	params := &Params{
+	params := &MinMaxParams{
 		Min_Id: min_id,
 		Max_Id: max_id,
 	}
@@ -30,7 +30,7 @@ func paramsValidator(c echo.Context) (error, *Params) {
 
 func GetAllArticles(c echo.Context) error {
 
-	err, params := paramsValidator(c)
+	err, params := minMaxValidator(c)
 	if err != nil {
 		fmt.Println("err", err)
 		return echo.NewHTTPError(http.StatusBadRequest, "Invalid Parameter")
