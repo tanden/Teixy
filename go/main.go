@@ -27,5 +27,7 @@ func main() {
 
 	e.POST("/articles", controllers.CreateArticle)
 
+	e.PUT("/articles/:id", controllers.UpdateArticle)
+
 	e.Logger.Fatal(e.Start(":8080"))
 }

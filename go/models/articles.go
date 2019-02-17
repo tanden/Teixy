@@ -84,3 +84,34 @@ func CreateArticle(min_score int, max_score int, title string, punch_line string
 		StatusOff,
 	)
 }
+
+func UpdateArticle(id int, min_score int, max_score int, title string, punch_line string, content string, status int) (sql.Result, error) {
+
+	data := db.CreateConectionTeixyArticles()
+
+	stmt, err := data.Prepare(`
+	UPDATE articles SET
+		min_score = ?,
+		max_score = ?,
+		title = ?,
+		punch_line = ?,
+		content = ?,
+		status = ?
+	WHERE id = ?
+	`)
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer stmt.Close()
+	return stmt.Exec(
+		min_score,
+		max_score,
+		title,
+		punch_line,
+		content,
+		status,
+		id,
+	)
+}
