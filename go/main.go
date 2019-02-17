@@ -18,10 +18,6 @@ func main() {
 		AllowMethods: []string{echo.GET, echo.POST, echo.PUT},
 	}))
 
-	e.GET("/", func(c echo.Context) error {
-		return c.JSON(http.StatusOK, "Hello World!")
-	})
-
 	e.GET("/books/all", controllers.GetAllBooks)
 	e.GET("/books/:id", controllers.GetBook)
 
