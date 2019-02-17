@@ -4,7 +4,6 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/teixy/go/controllers"
-	"net/http"
 )
 
 func main() {
@@ -15,12 +14,8 @@ func main() {
 
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowOrigins: []string{"*"},
-		AllowMethods: []string{echo.GET, echo.POST},
+		AllowMethods: []string{echo.GET, echo.POST, echo.PUT},
 	}))
-
-	e.GET("/", func(c echo.Context) error {
-		return c.JSON(http.StatusOK, "Hello World!")
-	})
 
 	e.GET("/books/all", controllers.GetAllBooks)
 	e.GET("/books/:id", controllers.GetBook)
