@@ -35,7 +35,7 @@ func init() {
 	Data = db.CreateConectionTeixyBooks()
 }
 
-func GetAllArticles(min_id int, max_id int) Books {
+func GetAllBooks(min_id int, max_id int) Books {
 
 	result := Books{}
 	query := "SELECT * FROM books WHERE id BETWEEN ? and ?"
@@ -47,11 +47,11 @@ func GetAllArticles(min_id int, max_id int) Books {
 	return result
 }
 
-func GetArticle(id int) []Book {
+func GetBook(book_id int) []Book {
 
 	var result []Book
 	query := "SELECT * FROM books WHERE id = ?"
-	err := Data.Select(&result, query, id)
+	err := Data.Select(&result, query, book_id)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -59,7 +59,7 @@ func GetArticle(id int) []Book {
 	return result
 }
 
-func CreateArticle(min_score int, max_score int, title string, punch_line string, content string) (sql.Result, error) {
+func CreateBook(min_score int, max_score int, title string, punch_line string, content string) (sql.Result, error) {
 
 	stmt, err := Data.Prepare(`
 	INSERT INTO books (
@@ -88,7 +88,7 @@ func CreateArticle(min_score int, max_score int, title string, punch_line string
 	)
 }
 
-func UpdateArticle(book_id int, min_score int, max_score int, title string, punch_line string, content string, status int) (sql.Result, error) {
+func UpdateBook(book_id int, min_score int, max_score int, title string, punch_line string, content string, status int) (sql.Result, error) {
 
 	stmt, err := Data.Prepare(`
 	UPDATE books SET
