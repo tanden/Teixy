@@ -9,7 +9,7 @@ import (
 )
 
 type Status struct {
-	Status int `validate:"required,min=1,numeric"`
+	Status int `validate:"min=0,max=1,numeric"`
 }
 
 type Params struct {
