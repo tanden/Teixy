@@ -29,7 +29,7 @@ type Book struct {
 	Max_Score  int    `validate:"required,min=1,numeric,gtefield=Min_Score"`
 	Title      string `validate:"required"`
 	Punch_Line string `validate:"required"`
-	Content    string `validate:"required"`
+	Article    string `validate:"required"`
 }
 
 type UpdateParams struct {
@@ -81,7 +81,7 @@ func CreateBook(c echo.Context) error {
 		max_score,
 		c.FormValue("title"),
 		c.FormValue("punch_line"),
-		c.FormValue("content"),
+		c.FormValue("article"),
 	}
 
 	validate = validator.New()
@@ -95,7 +95,7 @@ func CreateBook(c echo.Context) error {
 		params.Max_Score,
 		params.Title,
 		params.Punch_Line,
-		params.Content,
+		params.Article,
 	)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
@@ -120,7 +120,7 @@ func UpdateBook(c echo.Context) error {
 			max_score,
 			c.FormValue("title"),
 			c.FormValue("punch_line"),
-			c.FormValue("content"),
+			c.FormValue("article"),
 		},
 		Status{status},
 	}
@@ -137,7 +137,7 @@ func UpdateBook(c echo.Context) error {
 		params.Max_Score,
 		params.Title,
 		params.Punch_Line,
-		params.Content,
+		params.Article,
 		params.Status.Status,
 	)
 	if err != nil {

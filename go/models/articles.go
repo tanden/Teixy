@@ -19,7 +19,7 @@ type Book struct {
 	Max_Score  int    `json:"max_score"`
 	Title      string `json:"title"`
 	Punch_Line string `json:"punch_line"`
-	Content    string `json:"content"`
+	Article    string `json:"article"`
 	Status     int    `json:"status"`
 	Mtime      string `json:"mtime"`
 	Ctime      string `json:"ctime"`
@@ -59,7 +59,7 @@ func GetBook(book_id int) []Book {
 	return result
 }
 
-func CreateBook(min_score int, max_score int, title string, punch_line string, content string) (sql.Result, error) {
+func CreateBook(min_score int, max_score int, title string, punch_line string, article string) (sql.Result, error) {
 
 	stmt, err := Data.Prepare(`
 	INSERT INTO books (
@@ -67,7 +67,7 @@ func CreateBook(min_score int, max_score int, title string, punch_line string, c
 		max_score,
 		title,
 		punch_line,
-		content,
+		article,
 		status
 	) 
 	VALUES (?, ?, ?, ?, ?, ?)
@@ -83,12 +83,12 @@ func CreateBook(min_score int, max_score int, title string, punch_line string, c
 		max_score,
 		title,
 		punch_line,
-		content,
+		article,
 		StatusOff,
 	)
 }
 
-func UpdateBook(book_id int, min_score int, max_score int, title string, punch_line string, content string, status int) (sql.Result, error) {
+func UpdateBook(book_id int, min_score int, max_score int, title string, punch_line string, article string, status int) (sql.Result, error) {
 
 	stmt, err := Data.Prepare(`
 	UPDATE books SET
@@ -96,7 +96,7 @@ func UpdateBook(book_id int, min_score int, max_score int, title string, punch_l
 		max_score = ?,
 		title = ?,
 		punch_line = ?,
-		content = ?,
+		article = ?,
 		status = ?
 	WHERE id = ?
 	`)
@@ -111,7 +111,7 @@ func UpdateBook(book_id int, min_score int, max_score int, title string, punch_l
 		max_score,
 		title,
 		punch_line,
-		content,
+		article,
 		status,
 		book_id,
 	)

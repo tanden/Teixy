@@ -3,7 +3,7 @@ INSERT INTO books (
     min_score,
     title,
     punch_line,
-    content,
+    article,
     status
 ) values (
     800,
