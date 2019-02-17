@@ -1,10 +1,14 @@
 package models
 
 import (
+	"database/sql"
 	_ "github.com/lib/pq"
 	"github.com/teixy/go/db"
 	"log"
 )
+
+const StatusOff = 0
+const StatusOn = 1
 
 type Article struct {
 	Id         int    `json:"id"`
@@ -48,4 +52,35 @@ func GetArticle(id int) []Article {
 	}
 
 	return result
+}
+
+func CreateArticle(min_score int, max_score int, title string, punch_line string, content string) (sql.Result, error) {
+
+	data := db.CreateConectionTeixyArticles()
+
+	stmt, err := data.Prepare(`
+	INSERT INTO articles (
+		min_score,
+		max_score,
+		title,
+		punch_line,
+		content,
+		status
+	) 
+	VALUES (?, ?, ?, ?, ?, ?)
+	`)
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer stmt.Close()
+	return stmt.Exec(
+		min_score,
+		max_score,
+		title,
+		punch_line,
+		content,
+		StatusOff,
+	)
 }

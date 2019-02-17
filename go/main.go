@@ -25,5 +25,7 @@ func main() {
 	e.GET("/articles/all", controllers.GetAllArticles)
 	e.GET("/articles/:id", controllers.GetArticle)
 
+	e.POST("/articles", controllers.CreateArticle)
+
 	e.Logger.Fatal(e.Start(":8080"))
 }
