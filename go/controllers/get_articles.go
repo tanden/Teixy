@@ -15,6 +15,10 @@ type MinMax struct {
 	Max_Id int `validate:"required,min=1,numeric,gtefield=Min_Id"`
 }
 
+type Id struct {
+	Id int `validate:"required,min=1,numeric"`
+}
+
 func GetAllArticles(c echo.Context) error {
 	min_id, _ := strconv.Atoi(c.QueryParam("min_id"))
 	max_id, _ := strconv.Atoi(c.QueryParam("max_id"))
@@ -32,9 +36,10 @@ func GetAllArticles(c echo.Context) error {
 
 func GetArticle(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
+	params := Id{id}
 
 	validate = validator.New()
-	err := validate.Var(id, "required,min=1,numeric")
+	err := validate.Struct(params)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
