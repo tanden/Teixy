@@ -7,8 +7,10 @@ import (
 	"log"
 )
 
-const StatusOff = 0
-const StatusOn = 1
+const (
+	StatusOff = 0
+	StatusOn  = 1
+)
 
 type Article struct {
 	Id         int    `json:"id"`
