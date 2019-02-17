@@ -23,7 +23,7 @@ func GetAllArticles(c echo.Context) error {
 	validate = validator.New()
 	err := validate.Struct(params)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, "Invalid Parameter")
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
 	result := models.GetAllArticles(params.Min_Id, params.Max_Id)
@@ -36,7 +36,7 @@ func GetArticle(c echo.Context) error {
 	validate = validator.New()
 	err := validate.Var(id, "required,min=1,numeric")
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, "Invalid Parameter")
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
 	result := models.GetArticle(id)
