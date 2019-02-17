@@ -1,10 +1,10 @@
 CREATE TABLE IF NOT EXISTS `tag_map` (
   `id`         INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `article_id` INT UNSIGNED NOT NULL,
+  `book_id`    INT UNSIGNED NOT NULL,
   `tag_id`     INT UNSIGNED NOT NULL,
   `mtime`      DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `ctime`      DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  KEY `article_id` (`article_id`),
+  KEY `book_id` (`book_id`),
   KEY `tag_id` (`tag_id`)
 ) ENGINE=INNODB;

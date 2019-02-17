@@ -1,6 +1,6 @@
 version: '3'
 services:
-    db_articles:
+    db_books:
         image: mysql:8.0.13
         ports:
             - "3306:3306"
@@ -11,7 +11,7 @@ services:
         environment:
             MYSQL_USER: teixy
             MYSQL_PASSWORD: teixy
-            MYSQL_DATABASE: teixy_articles
+            MYSQL_DATABASE: teixy_books
             MYSQL_ROOT_PASSWORD: password
             TZ: 'Asia/Tokyo'
         command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
@@ -19,7 +19,7 @@ services:
     go:
         build: ./go
         depends_on:
-            - db_articles
+            - db_books
         volumes:
             - ./go:/go/src/github.com/teixy
         ports:

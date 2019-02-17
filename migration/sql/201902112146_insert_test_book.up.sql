@@ -1,9 +1,9 @@
-INSERT INTO articles (
+INSERT INTO books (
     max_score,
     min_score,
     title,
     punch_line,
-    content,
+    article,
     status
 ) values (
     800,

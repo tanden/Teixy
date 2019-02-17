@@ -22,12 +22,12 @@ func main() {
 		return c.JSON(http.StatusOK, "Hello World!")
 	})
 
-	e.GET("/articles/all", controllers.GetAllArticles)
-	e.GET("/articles/:id", controllers.GetArticle)
+	e.GET("/books/all", controllers.GetAllBooks)
+	e.GET("/books/:id", controllers.GetBook)
 
-	e.POST("/articles", controllers.CreateArticle)
+	e.POST("/books", controllers.CreateBook)
 
-	e.PUT("/articles/:id", controllers.UpdateArticle)
+	e.PUT("/books/:id", controllers.UpdateBook)
 
 	e.Logger.Fatal(e.Start(":8080"))
 }
