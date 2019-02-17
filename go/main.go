@@ -15,7 +15,7 @@ func main() {
 
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowOrigins: []string{"*"},
-		AllowMethods: []string{echo.GET, echo.POST},
+		AllowMethods: []string{echo.GET, echo.POST, echo.PUT},
 	}))
 
 	e.GET("/", func(c echo.Context) error {
