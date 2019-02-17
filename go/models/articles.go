@@ -13,10 +13,10 @@ const (
 	StatusOn  = 1
 )
 
-type Article struct {
+type Book struct {
 	Id         int    `json:"id"`
-	Max_Score  int    `json:"max_score"`
 	Min_Score  int    `json:"min_score"`
+	Max_Score  int    `json:"max_score"`
 	Title      string `json:"title"`
 	Punch_Line string `json:"punch_line"`
 	Content    string `json:"content"`
@@ -25,8 +25,8 @@ type Article struct {
 	Ctime      string `json:"ctime"`
 }
 
-type Articles struct {
-	Articles []Article `json:"article"`
+type Books struct {
+	Books []Book `json:"books"`
 }
 
 var Data *sqlx.DB
@@ -35,11 +35,11 @@ func init() {
 	Data = db.CreateConectionTeixyBooks()
 }
 
-func GetAllArticles(min_id int, max_id int) Articles {
+func GetAllArticles(min_id int, max_id int) Books {
 
-	result := Articles{}
+	result := Books{}
 	query := "SELECT * FROM books WHERE id BETWEEN ? and ?"
-	err := Data.Select(&result.Articles, query, min_id, max_id)
+	err := Data.Select(&result.Books, query, min_id, max_id)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -47,9 +47,9 @@ func GetAllArticles(min_id int, max_id int) Articles {
 	return result
 }
 
-func GetArticle(id int) []Article {
+func GetArticle(id int) []Book {
 
-	var result []Article
+	var result []Book
 	query := "SELECT * FROM books WHERE id = ?"
 	err := Data.Select(&result, query, id)
 	if err != nil {
@@ -88,7 +88,7 @@ func CreateArticle(min_score int, max_score int, title string, punch_line string
 	)
 }
 
-func UpdateArticle(id int, min_score int, max_score int, title string, punch_line string, content string, status int) (sql.Result, error) {
+func UpdateArticle(book_id int, min_score int, max_score int, title string, punch_line string, content string, status int) (sql.Result, error) {
 
 	stmt, err := Data.Prepare(`
 	UPDATE books SET
@@ -113,6 +113,6 @@ func UpdateArticle(id int, min_score int, max_score int, title string, punch_lin
 		punch_line,
 		content,
 		status,
-		id,
+		book_id,
 	)
 }
