@@ -29,14 +29,6 @@ circleciのローカルでテストしたりできるcli tool
 対処法はここにまとめておいた  
 [CircleCI Local CLIのインストールに失敗する](https://qiita.com/tanden/items/fac327992314ec0fa24a)  
 
-## 入れると便利な開発ツール
-### tig
-```
-$ yum install tig
-```
-で入るはず  
-gitのコミット履歴を見やすくしてくれる
-
 ## AWS Cloud9の環境設定
 
 ### timezone
@@ -49,3 +41,17 @@ Sat Feb  9 21:27:53 JST 2019
 ```
 
 db/create_sql.shから作成するsqlファイルのタイムスタンプが前後する可能性があるので、必ずJSTにセットしてから実行する
+
+## 入れると便利な開発ツール
+### tig
+```
+$ yum install tig
+```
+で入るはず  
+gitのコミット履歴を見やすくしてくれる
+
+## 設定すると便利なalias
+```
+alias dc=docker-compose
+alias ci=circleci
+```
