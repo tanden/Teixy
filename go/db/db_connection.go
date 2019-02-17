@@ -8,12 +8,12 @@ import (
 )
 
 const Driver = "mysql"
-const ConnInfoTeixyArticles = "teixy:teixy@tcp(db_articles:3306)/teixy_articles"
+const ConnInfoTeixyBooks = "teixy:teixy@tcp(db_books:3306)/teixy_books"
 
 //Create mysql connection
 //to teixy_article database
-func CreateConectionTeixyArticles() *sqlx.DB {
-	db, err := sqlx.Connect(Driver, ConnInfoTeixyArticles)
+func CreateConectionTeixyBooks() *sqlx.DB {
+	db, err := sqlx.Connect(Driver, ConnInfoTeixyBooks)
 	if err != nil {
 		log.Fatal(err)
 	}
