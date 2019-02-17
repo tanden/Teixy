@@ -1,4 +1,4 @@
-INSERT INTO articles (
+INSERT INTO books (
     max_score,
     min_score,
     title,

@@ -12,7 +12,7 @@ import (
 //sql and database info
 const (
 	Source   = "file://./sql/"
-	Database = "mysql://teixy:teixy@tcp(0.0.0.0:3306)/teixy_articles"
+	Database = "mysql://teixy:teixy@tcp(0.0.0.0:3306)/teixy_books"
 )
 
 //declare command line options
