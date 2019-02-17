@@ -2,6 +2,7 @@ package models
 
 import (
 	"database/sql"
+	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 	"github.com/teixy/go/db"
 	"log"
@@ -28,13 +29,17 @@ type Articles struct {
 	Articles []Article `json:"article"`
 }
 
+var Data *sqlx.DB
+
+func init() {
+	Data = db.CreateConectionTeixyBooks()
+}
+
 func GetAllArticles(min_id int, max_id int) Articles {
 
-	data := db.CreateConectionTeixyArticles()
-
 	result := Articles{}
-	query := "SELECT * FROM articles WHERE id BETWEEN ? and ?"
-	err := data.Select(&result.Articles, query, min_id, max_id)
+	query := "SELECT * FROM books WHERE id BETWEEN ? and ?"
+	err := Data.Select(&result.Articles, query, min_id, max_id)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -44,11 +49,9 @@ func GetAllArticles(min_id int, max_id int) Articles {
 
 func GetArticle(id int) []Article {
 
-	data := db.CreateConectionTeixyArticles()
-
 	var result []Article
-	query := "SELECT * FROM articles WHERE id = ?"
-	err := data.Select(&result, query, id)
+	query := "SELECT * FROM books WHERE id = ?"
+	err := Data.Select(&result, query, id)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -58,10 +61,8 @@ func GetArticle(id int) []Article {
 
 func CreateArticle(min_score int, max_score int, title string, punch_line string, content string) (sql.Result, error) {
 
-	data := db.CreateConectionTeixyArticles()
-
-	stmt, err := data.Prepare(`
-	INSERT INTO articles (
+	stmt, err := Data.Prepare(`
+	INSERT INTO books (
 		min_score,
 		max_score,
 		title,
@@ -89,10 +90,8 @@ func CreateArticle(min_score int, max_score int, title string, punch_line string
 
 func UpdateArticle(id int, min_score int, max_score int, title string, punch_line string, content string, status int) (sql.Result, error) {
 
-	data := db.CreateConectionTeixyArticles()
-
-	stmt, err := data.Prepare(`
-	UPDATE articles SET
+	stmt, err := Data.Prepare(`
+	UPDATE books SET
 		min_score = ?,
 		max_score = ?,
 		title = ?,
