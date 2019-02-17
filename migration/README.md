@@ -1,4 +1,4 @@
-# db
+# migration
 
 ## migrateを使ってmigrationを管理する
 [golang-migrate/migrate](https://github.com/golang-migrate/migrate)
