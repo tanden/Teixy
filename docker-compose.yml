@@ -27,7 +27,9 @@ services:
         command: bash -c 'go get github.com/codegangsta/gin && gin -t ./ -b main -i -a 8080'
         
     support:
-        build: ./frontend
+        build:
+            context: ./frontend/support
+            dockerfile: vue.Dockerfile
         depends_on:
             - go
         volumes:
@@ -35,6 +37,18 @@ services:
         ports:
             - '8081:8080'
         command: 'yarn run serve'
+        
+    support-firebase:
+        build:
+            context: ./frontend/support
+            dockerfile: firebase.Dockerfile
+        depends_on:
+            - support
+        volumes:
+            - ./frontend/support:/support
+        ports:
+            - '9005:8081'
+        tty: true
 
 volumes:
     data:
