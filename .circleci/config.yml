@@ -81,7 +81,7 @@ jobs:
                 cd frontend/support
                 yarn run build
 workflows:
-  version: 2
+  version: 2.1
   go_build:
     jobs:
       - go_build
