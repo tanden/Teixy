@@ -41,25 +41,31 @@ jobs:
     steps:
       - checkout
       
-      - run:
-          name: install latest yarn
-          command: |
-              sudo npm uninstall yarn
-              sudo npm install yarn -g
-      
       - restore_cache:
           name: Restore node modules from cache
           keys:
+              - v1-yarn-{{ .Branch }}-{{ checksum "frontend/support/yarn.lock" }}
               - v1-node-{{ .Branch }}-{{ checksum "frontend/support/yarn.lock" }}
-            
+              
       - run:
-          name: install node modules
+          name: Install latest yarn
+          command: |
+              npm uninstall yarn
+              npm install yarn
+              
+      - run:
+          name: Install node modules
           command: |
                 cd frontend/support
                 yarn install
-      
+              
       - save_cache:
-          key: v1-node-{{ .Branch }}-{{ checksum "frontend/support/yarn.lock" }}
+          key: v1-yarn-{{ .Branch }}-{{ checksum "frontend/support/yarn.lock" }}
+          paths:
+              - ~/.cache/yarn
+              
+      - save_cache:
+          key: v1-node-{{ .Branch }}-{{ checksum "frontend/support/package.json" }}
           paths:
               - ~/teixy/frontend/support/node_modules
       
