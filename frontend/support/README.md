@@ -1,6 +1,19 @@
 # support
 
-## Project setup
+## Firebase Project setup
+### ログイン
+```
+firebase login --no-localhost
+```
+cloud9ではlocalhostは使えないので
+オンライン開発環境用のコマンドを使用する
+
+### デプロイ
+```
+firebase deploy
+```
+
+## Vue Project setup
 ```
 yarn install
 ```
@@ -42,8 +55,7 @@ yarn run test:unit
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
-
-## dependencies
+## Vue dependencies
 ### vue
 言わずと知れたVue.jsの本体
 2019/01の最新は2.5.21
