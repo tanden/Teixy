@@ -1,7 +1,7 @@
 version: 2
 jobs:
   go_build:
-    working_directory: /go/src/github.com/teixy/
+    working_directory: ~/go/src/github.com/teixy/
 
     docker:
       - image: circleci/golang:1.11.5
