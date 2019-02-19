@@ -31,8 +31,49 @@ jobs:
           command: |
               cd go/
               go build -v -o main main.go
+              
+  support_build:
+    working_directory: ~/teixy
+    
+    docker:
+      - image: circleci/node:10.15.0
+    
+    steps:
+      - checkout
+      
+      - run:
+          name: install latest yarn
+          command: |
+              sudo npm uninstall yarn
+              sudo npm install yarn -g
+      
+      - restore_cache:
+          name: Restore node modules from cache
+          keys:
+              - v1-node-{{ .Branch }}-{{ checksum "frontend/support/yarn.lock" }}
+            
+      - run:
+          name: install node modules
+          command: |
+                cd frontend/support
+                yarn install
+      
+      - save_cache:
+          key: v1-node-{{ .Branch }}-{{ checksum "frontend/support/yarn.lock" }}
+          paths:
+              - ~/teixy/frontend/support/node_modules
+      
+      - run:
+          name: yarn build
+          command: |
+                cd frontend/support
+                yarn run build
 workflows:
   version: 2
   go_build:
     jobs:
       - go_build
+  vue_build:
+    jobs:
+      - support_build
+      
