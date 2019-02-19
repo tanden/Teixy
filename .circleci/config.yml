@@ -1,12 +1,19 @@
-version: 2
-jobs:
-  go_build:
-    working_directory: ~/go/src/github.com/teixy/
-
+executors:
+  go_image:
     docker:
       - image: circleci/golang:1.11.5
         environment:
           GO111MODULE: "on"
+  node_image:
+    docker:
+      - image: circleci/node:10.15.0
+
+version: 2.1
+jobs:
+  go_build:
+    working_directory: ~/go/src/github.com/teixy/
+    
+    executor: go_image
     
     steps:
       - checkout
@@ -35,8 +42,7 @@ jobs:
   support_build:
     working_directory: ~/teixy
     
-    docker:
-      - image: circleci/node:10.15.0
+    executor: node_image
     
     steps:
       - checkout
@@ -75,7 +81,7 @@ jobs:
                 cd frontend/support
                 yarn run build
 workflows:
-  version: 2
+  version: 2.1
   go_build:
     jobs:
       - go_build
