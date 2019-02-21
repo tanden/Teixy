@@ -45,7 +45,7 @@ jobs:
           name: Restore node modules from cache
           keys:
               - v1-yarn-{{ .Branch }}-{{ checksum "frontend/support/yarn.lock" }}
-              - v1-node-{{ .Branch }}-{{ checksum "frontend/support/yarn.lock" }}
+              - v1-node-{{ .Branch }}-{{ checksum "frontend/support/package.json" }}
               
       - run:
           name: Install latest yarn
