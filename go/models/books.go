@@ -14,7 +14,7 @@ const (
 )
 
 type Book struct {
-	Id         int    `json:"id"`
+	Book_Id    int    `json:"book_id"`
 	Min_Score  int    `json:"min_score"`
 	Max_Score  int    `json:"max_score"`
 	Title      string `json:"title"`
@@ -38,7 +38,7 @@ func init() {
 func GetAllBooks(min_id int, max_id int) Books {
 
 	result := Books{}
-	query := "SELECT * FROM books WHERE id BETWEEN ? and ?"
+	query := "SELECT * FROM books WHERE book_id BETWEEN ? and ?"
 	err := Data.Select(&result.Books, query, min_id, max_id)
 	if err != nil {
 		log.Fatalln(err)
@@ -50,7 +50,7 @@ func GetAllBooks(min_id int, max_id int) Books {
 func GetBook(book_id int) []Book {
 
 	var result []Book
-	query := "SELECT * FROM books WHERE id = ?"
+	query := "SELECT * FROM books WHERE book_id = ?"
 	err := Data.Select(&result, query, book_id)
 	if err != nil {
 		log.Fatalln(err)
@@ -98,7 +98,7 @@ func UpdateBook(book_id int, min_score int, max_score int, title string, punch_l
 		punch_line = ?,
 		article = ?,
 		status = ?
-	WHERE id = ?
+	WHERE book_id = ?
 	`)
 
 	if err != nil {
