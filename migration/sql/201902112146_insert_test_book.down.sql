@@ -1,2 +1,2 @@
-DELETE FROM books WHERE id = 1;
+DELETE FROM books WHERE book_id = 1;
 ALTER TABLE books AUTO_INCREMENT = 1;

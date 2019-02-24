@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS `books` (
-  `id`         INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `book_id`    INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `min_score`  INT UNSIGNED NOT NULL DEFAULT 0,
   `max_score`  INT UNSIGNED NOT NULL DEFAULT 990,
   `title`      TEXT NOT NULL,
@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS `books` (
   `status`     TINYINT NOT NULL,
   `mtime`      DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `ctime`      DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`book_id`),
   KEY `max_score` (`max_score`),
   KEY `min_score` (`min_score`)
 ) ENGINE=INNODB;
