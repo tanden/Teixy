@@ -91,10 +91,11 @@ func CreateBook(isbn uint64, min_score int, max_score int, title string, punch_l
 	)
 }
 
-func UpdateBook(book_id int, min_score int, max_score int, title string, punch_line string, article string, status int) (sql.Result, error) {
+func UpdateBook(book_id int, isbn uint64, min_score int, max_score int, title string, punch_line string, article string, status int) (sql.Result, error) {
 
 	stmt, err := Data.Prepare(`
 	UPDATE books SET
+		isbn = ?,
 		min_score = ?,
 		max_score = ?,
 		title = ?,
@@ -110,6 +111,7 @@ func UpdateBook(book_id int, min_score int, max_score int, title string, punch_l
 
 	defer stmt.Close()
 	return stmt.Exec(
+		isbn,
 		min_score,
 		max_score,
 		title,

@@ -116,10 +116,12 @@ func UpdateBook(c echo.Context) error {
 	book_id, _ := strconv.Atoi(c.Param("id"))
 	max_score, _ := strconv.Atoi(c.FormValue("max_score"))
 	min_score, _ := strconv.Atoi(c.FormValue("min_score"))
-	status, _ := strconv.Atoi(c.FormValue("status")) 
+	status, _ := strconv.Atoi(c.FormValue("status"))
+	isbn, _ := strconv.ParseUint(c.FormValue("isbn"), 10, 64)
 	params := UpdateParams{
 		BookId{book_id},
 		Book{
+			isbn,
 			min_score,
 			max_score,
 			c.FormValue("title"),
@@ -137,6 +139,7 @@ func UpdateBook(c echo.Context) error {
 
 	result, err := models.UpdateBook(
 		params.Id,
+		params.Isbn,
 		params.Min_Score,
 		params.Max_Score,
 		params.Title,
