@@ -25,6 +25,7 @@ type Status struct {
 }
 
 type Book struct {
+	Isbn       uint64 `validate:"required,min=9780000000000,numeric"`
 	Min_Score  int    `validate:"required,min=1,numeric"`
 	Max_Score  int    `validate:"required,min=1,numeric,gtefield=Min_Score"`
 	Title      string `validate:"required"`
@@ -76,7 +77,9 @@ func CreateBook(c echo.Context) error {
 
 	min_score, _ := strconv.Atoi(c.FormValue("min_score"))
 	max_score, _ := strconv.Atoi(c.FormValue("max_score"))
+	isbn, _ := strconv.ParseUint(c.FormValue("isbn"), 10, 64)
 	params := Book{
+		isbn,
 		min_score,
 		max_score,
 		c.FormValue("title"),
@@ -91,6 +94,7 @@ func CreateBook(c echo.Context) error {
 	}
 
 	result, err := models.CreateBook(
+		params.Isbn,
 		params.Min_Score,
 		params.Max_Score,
 		params.Title,

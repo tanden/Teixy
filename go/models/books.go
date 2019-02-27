@@ -15,6 +15,7 @@ const (
 
 type Book struct {
 	Book_Id    int    `json:"book_id"`
+	Isbn       uint64 `json:"isbn"`
 	Min_Score  int    `json:"min_score"`
 	Max_Score  int    `json:"max_score"`
 	Title      string `json:"title"`
@@ -59,10 +60,11 @@ func GetBook(book_id int) []Book {
 	return result
 }
 
-func CreateBook(min_score int, max_score int, title string, punch_line string, article string) (sql.Result, error) {
+func CreateBook(isbn uint64, min_score int, max_score int, title string, punch_line string, article string) (sql.Result, error) {
 
 	stmt, err := Data.Prepare(`
 	INSERT INTO books (
+		isbn,
 		min_score,
 		max_score,
 		title,
@@ -70,7 +72,7 @@ func CreateBook(min_score int, max_score int, title string, punch_line string, a
 		article,
 		status
 	) 
-	VALUES (?, ?, ?, ?, ?, ?)
+	VALUES (?, ?, ?, ?, ?, ?, ?)
 	`)
 
 	if err != nil {
@@ -79,6 +81,7 @@ func CreateBook(min_score int, max_score int, title string, punch_line string, a
 
 	defer stmt.Close()
 	return stmt.Exec(
+		isbn,
 		min_score,
 		max_score,
 		title,
