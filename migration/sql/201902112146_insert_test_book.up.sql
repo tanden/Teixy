@@ -1,4 +1,5 @@
 INSERT INTO books (
+    isbn,
     max_score,
     min_score,
     title,
@@ -6,6 +7,7 @@ INSERT INTO books (
     article,
     status
 ) values (
+    9784023315686,
     800,
     500,
     'TOEIC L & R TEST 出る単特急 金のフレーズ (TOEIC TEST 特急シリーズ)',
