@@ -60,6 +60,12 @@ func validateMinMax(min_id int, max_id int) error {
 	return validate.Struct(params)
 }
 
+func validateBookId(book_id int) error {
+	params := BookId{book_id}
+	validate = validator.New()
+	return validate.Struct(params)
+}
+
 func GetAllBooks(c echo.Context) error {
 	min_id, _ := strconv.Atoi(c.QueryParam("min_id"))
 	max_id, _ := strconv.Atoi(c.QueryParam("max_id"))
@@ -75,15 +81,13 @@ func GetAllBooks(c echo.Context) error {
 
 func GetBook(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
-	params := BookId{id}
 
-	validate = validator.New()
-	err := validate.Struct(params)
+	err := validateBookId(id)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	result := models.GetBook(params.Id)
+	result := models.GetBook(id)
 	return c.JSON(http.StatusOK, result)
 }
 
