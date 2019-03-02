@@ -9,8 +9,6 @@ import (
 	"strconv"
 )
 
-var validate *validator.Validate
-
 // form validation
 type MinMax struct {
 	Min_Id int `validate:"required,min=1,numeric"`
@@ -54,16 +52,20 @@ type QueryResult struct {
 	RowAffected  int64
 }
 
+var Validate *validator.Validate
+
+func init() {
+	Validate = validator.New()
+}
+
 func validateMinMax(min_id int, max_id int) error {
 	params := MinMax{min_id, max_id}
-	validate = validator.New()
-	return validate.Struct(params)
+	return Validate.Struct(params)
 }
 
 func validateBookId(book_id int) error {
 	params := BookId{book_id}
-	validate = validator.New()
-	return validate.Struct(params)
+	return Validate.Struct(params)
 }
 
 func GetAllBooks(c echo.Context) error {
@@ -102,8 +104,7 @@ func CreateBook(c echo.Context) error {
 			min_score_value,
 			max_score_value,
 		}
-		validate = validator.New()
-		err := validate.Struct(scores)
+		err := Validate.Struct(scores)
 		if err != nil {
 			return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 		}
@@ -119,8 +120,7 @@ func CreateBook(c echo.Context) error {
 		c.FormValue("article"),
 	}
 
-	validate = validator.New()
-	err := validate.Struct(book)
+	err := Validate.Struct(book)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
@@ -155,8 +155,7 @@ func UpdateBook(c echo.Context) error {
 			min_score_value,
 			max_score_value,
 		}
-		validate = validator.New()
-		err := validate.Struct(scores)
+		err := Validate.Struct(scores)
 		if err != nil {
 			return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 		}
@@ -178,8 +177,7 @@ func UpdateBook(c echo.Context) error {
 		Status{status},
 	}
 
-	validate = validator.New()
-	err := validate.Struct(params)
+	err := Validate.Struct(params)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
