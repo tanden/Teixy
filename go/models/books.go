@@ -14,15 +14,16 @@ const (
 )
 
 type Book struct {
-	Book_Id    int    `json:"book_id"`
-	Min_Score  int    `json:"min_score"`
-	Max_Score  int    `json:"max_score"`
-	Title      string `json:"title"`
-	Punch_Line string `json:"punch_line"`
-	Article    string `json:"article"`
-	Status     int    `json:"status"`
-	Mtime      string `json:"mtime"`
-	Ctime      string `json:"ctime"`
+	Book_Id    int           `json:"book_id"`
+	Isbn       int           `json:"isbn"`
+	Min_Score  sql.NullInt64 `json:"min_score"`
+	Max_Score  sql.NullInt64 `json:"max_score"`
+	Title      string        `json:"title"`
+	Punch_Line string        `json:"punch_line"`
+	Article    string        `json:"article"`
+	Status     int           `json:"status"`
+	Mtime      string        `json:"mtime"`
+	Ctime      string        `json:"ctime"`
 }
 
 type Books struct {
@@ -59,10 +60,11 @@ func GetBook(book_id int) []Book {
 	return result
 }
 
-func CreateBook(min_score int, max_score int, title string, punch_line string, article string) (sql.Result, error) {
+func CreateBook(isbn int, min_score sql.NullInt64, max_score sql.NullInt64, title string, punch_line string, article string) (sql.Result, error) {
 
 	stmt, err := Data.Prepare(`
 	INSERT INTO books (
+		isbn,
 		min_score,
 		max_score,
 		title,
@@ -70,7 +72,7 @@ func CreateBook(min_score int, max_score int, title string, punch_line string, a
 		article,
 		status
 	) 
-	VALUES (?, ?, ?, ?, ?, ?)
+	VALUES (?, ?, ?, ?, ?, ?, ?)
 	`)
 
 	if err != nil {
@@ -79,6 +81,7 @@ func CreateBook(min_score int, max_score int, title string, punch_line string, a
 
 	defer stmt.Close()
 	return stmt.Exec(
+		isbn,
 		min_score,
 		max_score,
 		title,
@@ -88,10 +91,11 @@ func CreateBook(min_score int, max_score int, title string, punch_line string, a
 	)
 }
 
-func UpdateBook(book_id int, min_score int, max_score int, title string, punch_line string, article string, status int) (sql.Result, error) {
+func UpdateBook(book_id int, isbn int, min_score sql.NullInt64, max_score sql.NullInt64, title string, punch_line string, article string, status int) (sql.Result, error) {
 
 	stmt, err := Data.Prepare(`
 	UPDATE books SET
+		isbn = ?,
 		min_score = ?,
 		max_score = ?,
 		title = ?,
@@ -107,6 +111,7 @@ func UpdateBook(book_id int, min_score int, max_score int, title string, punch_l
 
 	defer stmt.Close()
 	return stmt.Exec(
+		isbn,
 		min_score,
 		max_score,
 		title,

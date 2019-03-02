@@ -1,7 +1,8 @@
 CREATE TABLE IF NOT EXISTS `books` (
   `book_id`    INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `min_score`  INT UNSIGNED NOT NULL DEFAULT 0,
-  `max_score`  INT UNSIGNED NOT NULL DEFAULT 990,
+  `isbn`       BIGINT UNSIGNED NOT NUll,
+  `min_score`  SMALLINT UNSIGNED DEFAULT NULL,
+  `max_score`  SMALLINT UNSIGNED DEFAULT NULL,
   `title`      TEXT NOT NULL,
   `punch_line` TEXT NOT NULL,
   `article`    TEXT NOT NULL,

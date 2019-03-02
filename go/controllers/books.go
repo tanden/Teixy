@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"database/sql"
 	"github.com/labstack/echo/v4"
 	"github.com/teixy/go/models"
 	"gopkg.in/go-playground/validator.v9"
@@ -20,19 +21,29 @@ type BookId struct {
 	Id int `validate:"required,min=1,numeric"`
 }
 
-type Status struct {
-	Status int `validate:"min=0,max=1,numeric"`
+type Score struct {
+	Min_Score int `validate:"required,min=1,max=9999,numeric"`
+	Max_Score int `validate:"required,min=1,max=10000,numeric,gtefield=Min_Score"`
 }
 
 type Book struct {
-	Min_Score  int    `validate:"required,min=1,numeric"`
-	Max_Score  int    `validate:"required,min=1,numeric,gtefield=Min_Score"`
+	Isbn       int    `validate:"required,min=9780000000000,max=9800000000000,numeric"`
 	Title      string `validate:"required"`
 	Punch_Line string `validate:"required"`
 	Article    string `validate:"required"`
 }
 
+type Status struct {
+	Status int `validate:"min=0,max=1,numeric"`
+}
+
 type UpdateParams struct {
+	BookId
+	Book
+	Status
+}
+
+type UpdateParamsWithoutScore struct {
 	BookId
 	Book
 	Status
@@ -74,28 +85,47 @@ func GetBook(c echo.Context) error {
 
 func CreateBook(c echo.Context) error {
 
-	min_score, _ := strconv.Atoi(c.FormValue("min_score"))
-	max_score, _ := strconv.Atoi(c.FormValue("max_score"))
-	params := Book{
-		min_score,
-		max_score,
+	isbn, _ := strconv.Atoi(c.FormValue("isbn"))
+
+	min_score := sql.NullInt64{0, false}
+	max_score := sql.NullInt64{0, false}
+
+	if c.FormValue("min_score") != "" && c.FormValue("max_score") != "" {
+		min_score_value, _ := strconv.Atoi(c.FormValue("min_score"))
+		max_score_value, _ := strconv.Atoi(c.FormValue("max_score"))
+		scores := Score{
+			min_score_value,
+			max_score_value,
+		}
+		validate = validator.New()
+		err := validate.Struct(scores)
+		if err != nil {
+			return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+		}
+		min_score = sql.NullInt64{int64(min_score_value), true}
+		max_score = sql.NullInt64{int64(max_score_value), true}
+	}
+
+	book := Book{
+		isbn,
 		c.FormValue("title"),
 		c.FormValue("punch_line"),
 		c.FormValue("article"),
 	}
 
 	validate = validator.New()
-	err := validate.Struct(params)
+	err := validate.Struct(book)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
 	result, err := models.CreateBook(
-		params.Min_Score,
-		params.Max_Score,
-		params.Title,
-		params.Punch_Line,
-		params.Article,
+		book.Isbn,
+		min_score,
+		max_score,
+		book.Title,
+		book.Punch_Line,
+		book.Article,
 	)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
@@ -109,15 +139,34 @@ func CreateBook(c echo.Context) error {
 }
 
 func UpdateBook(c echo.Context) error {
+
+	min_score := sql.NullInt64{0, false}
+	max_score := sql.NullInt64{0, false}
+
+	if c.FormValue("min_score") != "" && c.FormValue("max_score") != "" {
+		min_score_value, _ := strconv.Atoi(c.FormValue("min_score"))
+		max_score_value, _ := strconv.Atoi(c.FormValue("max_score"))
+		scores := Score{
+			min_score_value,
+			max_score_value,
+		}
+		validate = validator.New()
+		err := validate.Struct(scores)
+		if err != nil {
+			return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+		}
+		min_score = sql.NullInt64{int64(min_score_value), true}
+		max_score = sql.NullInt64{int64(max_score_value), true}
+	}
+
 	book_id, _ := strconv.Atoi(c.Param("id"))
-	max_score, _ := strconv.Atoi(c.FormValue("max_score"))
-	min_score, _ := strconv.Atoi(c.FormValue("min_score"))
-	status, _ := strconv.Atoi(c.FormValue("status")) 
+	status, _ := strconv.Atoi(c.FormValue("status"))
+	isbn, _ := strconv.Atoi(c.FormValue("isbn"))
+
 	params := UpdateParams{
 		BookId{book_id},
 		Book{
-			min_score,
-			max_score,
+			isbn,
 			c.FormValue("title"),
 			c.FormValue("punch_line"),
 			c.FormValue("article"),
@@ -133,8 +182,9 @@ func UpdateBook(c echo.Context) error {
 
 	result, err := models.UpdateBook(
 		params.Id,
-		params.Min_Score,
-		params.Max_Score,
+		params.Isbn,
+		min_score,
+		max_score,
 		params.Title,
 		params.Punch_Line,
 		params.Article,
