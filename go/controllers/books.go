@@ -85,11 +85,8 @@ func GetBook(c echo.Context) error {
 
 func CreateBook(c echo.Context) error {
 
-	isbn, _ := strconv.Atoi(c.FormValue("isbn"))
-
 	min_score := sql.NullInt64{0, false}
 	max_score := sql.NullInt64{0, false}
-
 	if c.FormValue("min_score") != "" && c.FormValue("max_score") != "" {
 		min_score_value, _ := strconv.Atoi(c.FormValue("min_score"))
 		max_score_value, _ := strconv.Atoi(c.FormValue("max_score"))
@@ -106,6 +103,7 @@ func CreateBook(c echo.Context) error {
 		max_score = sql.NullInt64{int64(max_score_value), true}
 	}
 
+	isbn, _ := strconv.Atoi(c.FormValue("isbn"))
 	book := Book{
 		isbn,
 		c.FormValue("title"),
@@ -142,7 +140,6 @@ func UpdateBook(c echo.Context) error {
 
 	min_score := sql.NullInt64{0, false}
 	max_score := sql.NullInt64{0, false}
-
 	if c.FormValue("min_score") != "" && c.FormValue("max_score") != "" {
 		min_score_value, _ := strconv.Atoi(c.FormValue("min_score"))
 		max_score_value, _ := strconv.Atoi(c.FormValue("max_score"))
@@ -162,7 +159,6 @@ func UpdateBook(c echo.Context) error {
 	book_id, _ := strconv.Atoi(c.Param("id"))
 	status, _ := strconv.Atoi(c.FormValue("status"))
 	isbn, _ := strconv.Atoi(c.FormValue("isbn"))
-
 	params := UpdateParams{
 		BookId{book_id},
 		Book{
