@@ -60,7 +60,7 @@ func GetBook(book_id int) []Book {
 	return result
 }
 
-func CreateBook(isbn int, min_score int, max_score int, title string, punch_line string, article string) (sql.Result, error) {
+func CreateBook(isbn int, min_score sql.NullInt64, max_score sql.NullInt64, title string, punch_line string, article string) (sql.Result, error) {
 
 	stmt, err := Data.Prepare(`
 	INSERT INTO books (
@@ -91,7 +91,7 @@ func CreateBook(isbn int, min_score int, max_score int, title string, punch_line
 	)
 }
 
-func UpdateBook(book_id int, isbn int, min_score int, max_score int, title string, punch_line string, article string, status int) (sql.Result, error) {
+func UpdateBook(book_id int, isbn int, min_score sql.NullInt64, max_score sql.NullInt64, title string, punch_line string, article string, status int) (sql.Result, error) {
 
 	stmt, err := Data.Prepare(`
 	UPDATE books SET
