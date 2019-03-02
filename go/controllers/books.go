@@ -54,18 +54,22 @@ type QueryResult struct {
 	RowAffected  int64
 }
 
+func validateMinMax(min_id int, max_id int) error {
+	params := MinMax{min_id, max_id}
+	validate = validator.New()
+	return validate.Struct(params)
+}
+
 func GetAllBooks(c echo.Context) error {
 	min_id, _ := strconv.Atoi(c.QueryParam("min_id"))
 	max_id, _ := strconv.Atoi(c.QueryParam("max_id"))
-	params := MinMax{min_id, max_id}
 
-	validate = validator.New()
-	err := validate.Struct(params)
+	err := validateMinMax(min_id, max_id)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 
-	result := models.GetAllBooks(params.Min_Id, params.Max_Id)
+	result := models.GetAllBooks(min_id, max_id)
 	return c.JSON(http.StatusOK, result)
 }
 
