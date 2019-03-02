@@ -15,3 +15,16 @@ INSERT INTO books (
     'これはテスト記事です',
     0
 );
+INSERT INTO books (
+    isbn,
+    title,
+    punch_line,
+    article,
+    status
+) values (
+    9784866390833,
+    'TOEIC L&Rテスト 文法問題 でる1000問',
+    '文法問題はこれでバッチリ',
+    'これはテスト記事です',
+    0
+);

@@ -14,16 +14,16 @@ const (
 )
 
 type Book struct {
-	Book_Id    int    `json:"book_id"`
-	Isbn       int    `json:"isbn"`
-	Min_Score  int    `json:"min_score"`
-	Max_Score  int    `json:"max_score"`
-	Title      string `json:"title"`
-	Punch_Line string `json:"punch_line"`
-	Article    string `json:"article"`
-	Status     int    `json:"status"`
-	Mtime      string `json:"mtime"`
-	Ctime      string `json:"ctime"`
+	Book_Id    int           `json:"book_id"`
+	Isbn       int           `json:"isbn"`
+	Min_Score  sql.NullInt64 `json:"min_score"`
+	Max_Score  sql.NullInt64 `json:"max_score"`
+	Title      string        `json:"title"`
+	Punch_Line string        `json:"punch_line"`
+	Article    string        `json:"article"`
+	Status     int           `json:"status"`
+	Mtime      string        `json:"mtime"`
+	Ctime      string        `json:"ctime"`
 }
 
 type Books struct {
