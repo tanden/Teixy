@@ -58,6 +58,7 @@ jobs:
       - run:
           name: Install node modules
           command: |
+                ls
                 cd frontend/support
                 ls
                 yarn install
@@ -77,6 +78,7 @@ jobs:
       - run:
           name: yarn build
           command: |
+                ls
                 cd frontend/support
                 ls
                 yarn run build
