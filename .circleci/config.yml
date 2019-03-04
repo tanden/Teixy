@@ -59,6 +59,7 @@ jobs:
           name: Install node modules
           command: |
                 cd frontend/support
+                ls
                 yarn install
               
       - save_cache:
