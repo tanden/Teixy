@@ -53,7 +53,7 @@ jobs:
           name: Install latest yarn
           command: |
               npm uninstall yarn
-              npm install yarn
+              npm install yarn -g
               
       - run:
           name: Install node modules
