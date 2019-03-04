@@ -98,7 +98,7 @@ jobs:
           name: 'Install Depencencies'
           command: |
                 cd frontend/support
-                npm install -save firebase-tools
+                npm install firebase-tools
     
 workflows:
   version: 2
