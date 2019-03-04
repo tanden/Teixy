@@ -78,11 +78,34 @@ jobs:
           command: |
                 cd frontend/support
                 yarn run build
+      
+      - persist_to_workspace:
+          root: .
+          paths:
+            - frontend/support
+      
+  support_deploy:
+    working_directory: ~/teixy
+    
+    docker:
+      - iamge: circleci/node:8
+    
+    steps:
+      - attach_workspace:
+          at: .
+      
+      - run:
+          name: 'Install Depencencies'
+          command: ls -l
+    
 workflows:
   version: 2
   go_build:
     jobs:
       - go_build
-  vue_build:
+  support:
     jobs:
       - support_build
+      - support_deploy:
+          requires:
+            - support_build
