@@ -82,7 +82,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - frontend/support/
+            - .
       
   support_deploy:
     working_directory: ~/teixy
