@@ -53,8 +53,8 @@ jobs:
           name: Install latest yarn
           command: |
               cd frontend/support
-              npm uninstall yarn -g
-              npm install yarn -g
+              npm uninstall yarn
+              npm install yarn
               
       - run:
           name: Install node modules
