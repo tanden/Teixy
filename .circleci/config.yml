@@ -78,6 +78,7 @@ jobs:
           name: yarn build
           command: |
                 cd frontend/support
+                ls
                 yarn run build
       
       - persist_to_workspace:
