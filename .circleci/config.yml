@@ -62,11 +62,13 @@ jobs:
                 yarn install
               
       - save_cache:
+          name: Save yarn cache
           key: v1-yarn-{{ .Branch }}-{{ checksum "frontend/support/yarn.lock" }}
           paths:
               - ~/.cache/yarn
               
       - save_cache:
+          name: Save node modules cache
           key: v1-node-{{ .Branch }}-{{ checksum "frontend/support/package.json" }}
           paths:
               - ~/teixy/frontend/support/node_modules
