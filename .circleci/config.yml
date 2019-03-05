@@ -150,4 +150,3 @@ workflows:
           context: firebase
           requires:
             - approve_deploy_production
- 
