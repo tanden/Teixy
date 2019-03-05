@@ -132,6 +132,19 @@ workflows:
   go_build:
     jobs:
       - go_build
-  vue_build:
+  support:
     jobs:
       - support_build
+      - support_deploy_stg:
+          context: firebase
+          requires:
+            - support_build
+      - approve_deploy_production:
+          type: approval
+          requires:
+            - support_deploy_stg
+      - support_deploy_production:
+          context: firebase
+          requires:
+            - approve_deploy_production
+ 
