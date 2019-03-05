@@ -95,10 +95,14 @@ jobs:
           at: .
       
       - run:
-          name: 'Install Depencencies'
+          name: Install firebase
           command: |
                 cd frontend/support
                 npm install firebase-tools
+      
+      - run:
+          name: Deploy project
+          command: |
                 firebase deploy --only hosting --project ${FIREBASE_PROJECT} --token ${FIREBASE_TOKEN}
     
 workflows:
