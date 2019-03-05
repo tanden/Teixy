@@ -99,6 +99,7 @@ jobs:
           command: |
                 cd frontend/support
                 npm install firebase-tools
+                firebase deploy --only hosting --project ${FIREBASE_PROJECT} --token ${FIREBASE_TOKEN}
     
 workflows:
   version: 2
