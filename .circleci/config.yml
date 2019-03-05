@@ -104,7 +104,7 @@ jobs:
           name: Deploy project
           command: |
                 cd frontend/support
-                firebase deploy --only hosting --project ${FIREBASE_PROJECT} --token ${FIREBASE_TOKEN}
+                npx firebase deploy --only hosting --project ${FIREBASE_PROJECT} --token ${FIREBASE_TOKEN}
     
 workflows:
   version: 2
