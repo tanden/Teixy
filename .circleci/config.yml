@@ -84,7 +84,7 @@ jobs:
           paths:
             - .
       
-  support_deploy:
+  support_deploy_stg:
     working_directory: ~/teixy
     
     docker:
@@ -104,7 +104,28 @@ jobs:
           name: Deploy project
           command: |
                 cd frontend/support
-                npx firebase deploy --only hosting --project ${FIREBASE_PROJECT_NAME} --token ${FIREBASE_TOKEN}
+                npx firebase deploy --only hosting --project ${FIREBASE_PROJECT_NAME_STG} --token ${FIREBASE_TOKEN_STG}
+                
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+            
+  support_deploy_production:
+    working_directory: ~/teixy
+    
+    docker:
+      - image: circleci/node:8.11.3
+    
+    steps:
+      - attach_workspace:
+          at: .
+      
+      - run:
+          name: Deploy project
+          command: |
+                cd frontend/support
+                npx firebase deploy --only hosting --project ${FIREBASE_PROJECT_NAME} --token ${FIREBASE_TOKEN} 
     
 workflows:
   version: 2
@@ -114,7 +135,16 @@ workflows:
   support:
     jobs:
       - support_build
-      - support_deploy:
+      - support_deploy_stg:
           context: firebase
           requires:
             - support_build
+      - approve_deploy_production:
+          type: approval
+          requires:
+            - support_deploy_stg
+      - support_deploy_production:
+          context: firebase
+          requires:
+            - approve_deploy_production
+            
