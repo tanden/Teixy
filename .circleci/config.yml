@@ -110,6 +110,22 @@ jobs:
           root: .
           paths:
             - .
+  
+  support_deploy_production:
+    working_directory: ~/teixy
+
+    docker:
+      - image: circleci/node:8.11.3
+
+    steps:
+      - attach_workspace:
+          at: .
+
+      - run:
+          name: Deploy project
+          command: |
+                cd frontend/support
+                npx firebase deploy --only hosting --project ${FIREBASE_PROJECT_NAME} --token ${FIREBASE_TOKEN}
             
 workflows:
   version: 2
