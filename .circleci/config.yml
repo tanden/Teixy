@@ -103,7 +103,7 @@ jobs:
       - run:
           name: Deploy project
           command: |
-                ls
+                cd frontend/support
                 firebase deploy --only hosting --project ${FIREBASE_PROJECT} --token ${FIREBASE_TOKEN}
     
 workflows:
