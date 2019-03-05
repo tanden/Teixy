@@ -74,7 +74,7 @@ jobs:
               - ~/teixy/frontend/support/node_modules
       
       - run:
-          name: yarn build
+          name: Exec yarn build
           command: |
                 cd frontend/support
                 yarn run build
