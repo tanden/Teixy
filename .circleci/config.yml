@@ -1,7 +1,7 @@
 version: 2
 jobs:
   go_build:
-    working_directory: ~/go/src/github.com/teixy/
+    working_directory: ~/go/src/github.com/teixy
 
     docker:
       - image: circleci/golang:1.12
@@ -74,15 +74,79 @@ jobs:
               - ~/teixy/frontend/support/node_modules
       
       - run:
-          name: yarn build
+          name: Exec yarn build
           command: |
                 cd frontend/support
                 yarn run build
+                
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+            
+  support_deploy_stg:
+    working_directory: ~/teixy
+
+    docker:
+      - image: circleci/node:8.11.3
+
+    steps:
+      - attach_workspace:
+          at: .
+
+      - run:
+          name: Install firebase
+          command: |
+                cd frontend/support
+                npm install --save firebase-tools
+      
+      - run:
+          name: Deploy project
+          command: |
+                cd frontend/support
+                npx firebase deploy --only hosting --project ${FIREBASE_PROJECT_NAME_STG} --token ${FIREBASE_TOKEN_STG}
+                
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+  
+  support_deploy_production:
+    working_directory: ~/teixy
+
+    docker:
+      - image: circleci/node:8.11.3
+
+    steps:
+      - attach_workspace:
+          at: .
+
+      - run:
+          name: Deploy project
+          command: |
+                cd frontend/support
+                npx firebase deploy --only hosting --project ${FIREBASE_PROJECT_NAME} --token ${FIREBASE_TOKEN}
+            
 workflows:
   version: 2
   go_build:
     jobs:
       - go_build
-  vue_build:
+  support:
     jobs:
       - support_build
+      - support_deploy_stg:
+          context: firebase
+          requires:
+            - support_build
+          filters:
+            branches:
+              only: develop
+      - approve_deploy_production:
+          type: approval
+          requires:
+            - support_deploy_stg
+      - support_deploy_production:
+          context: firebase
+          requires:
+            - approve_deploy_production
