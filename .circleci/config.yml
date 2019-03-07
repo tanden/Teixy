@@ -1,5 +1,28 @@
 version: 2
 jobs:
+  is_go_build:
+    working_directory: ~/go/src/github.com/teixy
+    
+    docker:
+      - image: circleci/golang:1.12
+        environment:
+          GO111MODULE: "on"
+    
+    steps:
+      - checkout
+      
+      - run:
+          # if diff is not go/, then exit 1
+          name: Is go build
+          command: |
+            branch=$CIRCLE_BRANCH
+            diff=$(git diff --name-only origin/develop...${branch})
+
+            if [[ "${diff}" !~ go/ ]] ; then
+              echo 'skip go build'
+              exit 1
+            fi
+    
   go_build:
     working_directory: ~/go/src/github.com/teixy
 
@@ -131,7 +154,10 @@ workflows:
   version: 2
   go_build:
     jobs:
-      - go_build
+      - is_go_build
+      - go_build:
+          requires:
+            - is_go_build
   support:
     jobs:
       - support_build
