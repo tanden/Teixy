@@ -13,7 +13,7 @@ jobs:
 
       - restore_cache:
           name: Restore go modules cache
-          keys:
+          key:
               - v1-mod-{{ .Branch }}-{{ checksum "go/go.mod" }}
 
       - run:
