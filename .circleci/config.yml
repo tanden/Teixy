@@ -10,7 +10,6 @@ jobs:
     
     steps:
       - checkout
-      
       - run:
           # if diff is not go/, then exit 1
           name: Is go build
@@ -20,7 +19,6 @@ jobs:
 
             if [[ "${diff}" =~ go/ ]] ; then
               echo 'add tag go'
-              git tag go
             fi
     
   go_build:
