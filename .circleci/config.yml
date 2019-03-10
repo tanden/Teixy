@@ -159,7 +159,12 @@ workflows:
   go_build:
     jobs:
       - is_go_build
-      - go_build
+      - go_build:
+          requires:
+            - is_go_build
+          filters:
+            tags:
+              only: go
   support:
     jobs:
       - support_build
