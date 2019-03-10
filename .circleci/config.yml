@@ -19,6 +19,7 @@ jobs:
 
             if [[ "${diff}" =~ go/ ]] ; then
               echo 'add tag go'
+              git status
             fi
     
   go_build:
