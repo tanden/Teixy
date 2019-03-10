@@ -145,7 +145,7 @@ workflows:
       - support_deploy_stg:
           context: firebase
           requires:
-            - support_build
+            - approve_deploy_stg
           filters:
             branches:
               only: develop
