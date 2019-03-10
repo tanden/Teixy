@@ -169,8 +169,9 @@ workflows:
   support:
     jobs:
       - support_build:
-          tags:
-            only: vue
+          filters:
+            tags:
+              only: /^vue/
       - support_deploy_stg:
           context: firebase
           requires:
