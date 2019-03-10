@@ -168,7 +168,7 @@ workflows:
             - is_go_build
           filters:
             tags:
-              only: /go
+              only: /^go/
   support:
     jobs:
       - support_build
