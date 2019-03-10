@@ -12,7 +12,7 @@ jobs:
       - run:
           name: Is build go
           command: |
-            if [ $CIRCLE_BRANCH = "develop" ]; then
+            if [ ${CIRCLE_BRANCH} = "develop" ]; then
               # 現在がmasterであれば、直前のコミットと比較
               TARGET="HEAD^ HEAD"
             else
@@ -20,7 +20,7 @@ jobs:
               TARGET="origin/develop"
             fi
             echo ${TARGET}
-            diff=$(git diff --name-only origin/deploy...${TARGET})
+            diff=$(git diff --name-only ${TARGET}...${CIRCLE_BRANCH})
             echo ${diff}
   go_build:
     working_directory: ~/go/src/github.com/teixy
