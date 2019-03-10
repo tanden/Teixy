@@ -18,9 +18,9 @@ jobs:
             branch=$CIRCLE_BRANCH
             diff=$(git diff --name-only origin/develop...${branch})
 
-            if [[ "${diff}" !~ go/ ]] ; then
-              echo 'skip go build'
-              exit 1
+            if [[ "${diff}" =~ go/ ]] ; then
+              echo 'add tag go'
+              git tag go
             fi
     
   go_build:
@@ -158,6 +158,9 @@ workflows:
       - go_build:
           requires:
             - is_go_build
+          filters:
+            tags:
+              only: go
   support:
     jobs:
       - support_build
