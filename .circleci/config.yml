@@ -15,8 +15,8 @@ jobs:
           name: Is go build
           command: |
             branch=$CIRCLE_BRANCH
+            echo ${branch}
             diff=$(git diff --name-only origin/develop...${branch})
-            git status ${branch}
 
             if [[ "${diff}" =~ go/ ]] ; then
               echo 'add tag go'
