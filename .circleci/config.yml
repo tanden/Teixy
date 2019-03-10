@@ -160,7 +160,7 @@ jobs:
             
 workflows:
   version: 2
-  go_build:
+  backend:
     jobs:
       - is_go_build
       - go_build:

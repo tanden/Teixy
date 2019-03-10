@@ -39,7 +39,7 @@ func init() {
 func GetAllBooks(min_id int, max_id int) Books {
 
 	result := Books{}
-	query := "SELECT * FROM books WHERE book_id BETWEEN ? and ?"
+	query := `SELECT * FROM books WHERE book_id BETWEEN ? and ?`
 	err := Data.Select(&result.Books, query, min_id, max_id)
 	if err != nil {
 		log.Fatalln(err)
