@@ -167,8 +167,6 @@ workflows:
           requires:
             - is_go_build
           filters:
-            branches:
-              only: develop
             tags:
               only: /^go/
   support:
