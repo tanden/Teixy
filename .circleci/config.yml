@@ -172,6 +172,8 @@ workflows:
           filters:
             tags:
               only: /^vue/
+            branches:
+              ignore: /.*/
       - support_deploy_stg:
           context: firebase
           requires:
