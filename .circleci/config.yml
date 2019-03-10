@@ -19,9 +19,12 @@ jobs:
               # masterブランチ以外であれば、origin/masterの最新と比較
               TARGET="origin/develop"
             fi
-            echo ${TARGET}
             diff=$(git diff --name-only ${TARGET}...${CIRCLE_BRANCH})
             echo ${diff}
+            if [[ "${diff}" =~ go/ ]] ; then
+              echo 'add tag go'
+              git tag go
+            fi
   go_build:
     working_directory: ~/go/src/github.com/teixy
 
