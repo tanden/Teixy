@@ -16,10 +16,10 @@ jobs:
           command: |
             branch=$CIRCLE_BRANCH
             diff=$(git diff --name-only origin/develop...${branch})
+            git status ${branch}
 
             if [[ "${diff}" =~ go/ ]] ; then
               echo 'add tag go'
-              git status
             fi
     
   go_build:
