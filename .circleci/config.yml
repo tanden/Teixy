@@ -129,7 +129,7 @@ jobs:
             
 workflows:
   version: 2
-  go_build:
+  backend:
     jobs:
       - go_build
   support:
