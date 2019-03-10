@@ -30,6 +30,7 @@ jobs:
           name: Build go binary
           command: |
               git status
+              git tag go
               cd go/
               go build -v -o main main.go
               
