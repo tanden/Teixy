@@ -37,14 +37,11 @@ jobs:
       - image: circleci/golang:1.12
         environment:
           GO111MODULE: "on"
-    
+          
     steps:
       - attach_workspace:
           at: .
           
-      - tags:
-          only: /^go/
-
       - restore_cache:
           name: Restore go modules cache
           keys:
@@ -171,7 +168,9 @@ workflows:
             - is_go_build
   support:
     jobs:
-      - support_build
+      - support_build:
+          tags:
+            only: vue
       - support_deploy_stg:
           context: firebase
           requires:
