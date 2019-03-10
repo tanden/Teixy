@@ -139,6 +139,9 @@ workflows:
           type: approval
           requires:
             - support_build
+          filters:
+            branches:
+              only: develop
       - support_deploy_stg:
           context: firebase
           requires:
