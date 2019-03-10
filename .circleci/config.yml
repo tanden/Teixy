@@ -15,12 +15,12 @@ jobs:
           name: Is go build
           command: |
             branch=$CIRCLE_BRANCH
-            echo $CIRCLE_BRANCH
-            git status
             diff=$(git diff --name-only origin/develop...${branch})
+            exit 0
 
             if [[ "${diff}" =~ go/ ]] ; then
               echo 'add tag go'
+              exit 0
             fi
     
   go_build:
@@ -152,7 +152,7 @@ jobs:
             
 workflows:
   version: 2
-  go_build:
+  backend:
     jobs:
       - is_go_build
       - go_build:
