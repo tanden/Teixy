@@ -25,6 +25,11 @@ jobs:
               echo 'add tag go'
               git tag go
             fi
+            
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
   go_build:
     working_directory: ~/go/src/github.com/teixy
 
@@ -34,7 +39,8 @@ jobs:
           GO111MODULE: "on"
     
     steps:
-      - checkout
+      - attach_workspace:
+          at: .
 
       - restore_cache:
           name: Restore go modules cache
