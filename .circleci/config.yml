@@ -15,7 +15,7 @@ jobs:
           name: Is go build
           command: |
             branch=$CIRCLE_BRANCH
-            echo ${branch}
+            echo $CIRCLE_BRANCH
             diff=$(git diff --name-only origin/develop...${branch})
 
             if [[ "${diff}" =~ go/ ]] ; then
