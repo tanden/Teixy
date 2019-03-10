@@ -1,5 +1,27 @@
 version: 2
 jobs:
+  is_go_build:
+    working_directory: ~/go/src/github.com/teixy
+    
+    docker:
+      - image: circleci/golang:1.12
+    
+    steps:
+      - checkout
+      
+      - run:
+          name: Is build go
+          command: |
+            if [ $CIRCLE_BRANCH = "develop" ]; then
+              # 現在がmasterであれば、直前のコミットと比較
+              TARGET="HEAD^ HEAD"
+            else
+              # masterブランチ以外であれば、origin/masterの最新と比較
+              TARGET="origin/develop"
+            fi
+            echo ${TARGET}
+            diff=$(git diff --name-only origin/deploy...${TARGET})
+            echo ${diff}
   go_build:
     working_directory: ~/go/src/github.com/teixy
 
@@ -133,6 +155,7 @@ workflows:
   version: 2
   go_build:
     jobs:
+      - is_go_build
       - go_build
   support:
     jobs:
