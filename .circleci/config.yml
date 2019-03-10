@@ -13,10 +13,10 @@ jobs:
           name: Is build go
           command: |
             if [ ${CIRCLE_BRANCH} = "develop" ]; then
-              # 現在がmasterであれば、直前のコミットと比較
+              # 現在がdevelopであれば、直前のコミットと比較
               TARGET="HEAD^ HEAD"
             else
-              # masterブランチ以外であれば、origin/masterの最新と比較
+              # developブランチ以外であれば、origin/developの最新と比較
               TARGET="origin/develop"
             fi
             diff=$(git diff --name-only ${TARGET}...${CIRCLE_BRANCH})
