@@ -174,11 +174,8 @@ workflows:
   support:
     jobs:
       - support_build:
-          filters:
             tags:
               only: /^vue/
-            branches:
-              ignore: /.*/
       - support_deploy_stg:
           context: firebase
           requires:
@@ -186,6 +183,8 @@ workflows:
           filters:
             branches:
               only: develop
+            tags:
+              only: /^vue*/
       - approve_deploy_production:
           type: approval
           requires:
