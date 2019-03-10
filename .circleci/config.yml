@@ -60,7 +60,7 @@ jobs:
       - run:
           name: Build go binary
           command: |
-              git tag list
+              git tag -l
               cd go/
               go build -v -o main main.go
               
