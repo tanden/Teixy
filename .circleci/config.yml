@@ -16,6 +16,7 @@ jobs:
           command: |
             branch=$CIRCLE_BRANCH
             echo $CIRCLE_BRANCH
+            git status
             diff=$(git diff --name-only origin/develop...${branch})
 
             if [[ "${diff}" =~ go/ ]] ; then
