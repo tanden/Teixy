@@ -135,10 +135,14 @@ workflows:
   support:
     jobs:
       - support_build
+      - approve_deploy_stg:
+          type: approval
+          requires:
+            - support_build
       - support_deploy_stg:
           context: firebase
           requires:
-            - support_build
+            - approve_deploy_stg
           filters:
             branches:
               only: develop
