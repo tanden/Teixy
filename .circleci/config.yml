@@ -41,6 +41,9 @@ jobs:
     steps:
       - attach_workspace:
           at: .
+          
+      - tags:
+          only: /^go/
 
       - restore_cache:
           name: Restore go modules cache
@@ -166,9 +169,6 @@ workflows:
       - go_build:
           requires:
             - is_go_build
-          filters:
-            tags:
-              only: /^go/
   support:
     jobs:
       - support_build
